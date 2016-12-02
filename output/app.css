@@ -1,0 +1,74 @@
+
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
+
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+/* Text Block */
+
+.rj-textblock {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px
+}
+
+.rj-textblock h4 {
+    margin-top: 0;
+    margin-bottom: 5px
+}
+
+.rj-textblock p:last-child {
+    margin-bottom: 0
+}
+
+.rj-textblock code {
+    border-radius: 3px
+}
+
+.rj-textblock+.rj-textblock {
+    margin-top: -5px
+}
+
+.rj-textblock-red {
+    border-left-color: #FF0000
+}
+
+.rj-textblock-red h4 {
+    color: #FF0000
+}
+
+.rj-textblock-green {
+    border-left-color: #22CC55
+}
+
+.rj-textblock-green h4 {
+    color: #22CC55
+}
+
+.rj-textblock-blue {
+    border-left-color: #0000FF
+}
+
+.rj-textblock-blue h4 {
+    color: #0000FF
+}
