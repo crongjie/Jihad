@@ -3,7 +3,7 @@ const mainmenu = {
     items: [
         { text: 'Home', url: '/' },
         { text: 'Orders', url: '/', items:[
-                { text: 'Add Orders', url: '/' },
+                { text: 'Add Orders', url: '/order' },
                 { text: 'Check Status', url: '/' },
                 { text: 'History', url: '/' },
                 { type: 'separator' },
@@ -11,6 +11,7 @@ const mainmenu = {
             ]  
         },
         { text: 'Payment', url: '/payment' },
+        { text: 'QR Code 確認收貨', url: '/' },
         { text: 'About', url: '/' },
         { text: 'Logout', url: '/' }
     ]
