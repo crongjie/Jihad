@@ -1,5 +1,7 @@
 
 import React from 'react'
+import RStore from './RStore.js' 
+
 var QRCode = require('qrcode.react');
 
 let order_items = [];
@@ -30,25 +32,14 @@ let OrderForm = React.createClass({
     },
     handleAddClick: function (event) {
         ++item_id;
-        order_items.push( { id: item_id, name: this.state.name, price: this.state.price })
+        RStore.addOrder( { id: item_id, name: this.state.name, price: this.state.price });
+        //order_items.push( { id: item_id, name: this.state.name, price: this.state.price })
         this.setState({ name: '', price: '' });
     },
 	render: function() {
     	let list = this.props.item;
 		return (
             <div>
-                <div>
-                    <div className="form-group">
-                        <label>Item Name:</label>
-                        <input type="text" value={this.state.name} onChange={this.handleChangeName} className="form-control" id="item_name" />
-                    </div>
-                    <div className="form-group">
-                        <label>Price:</label>
-                        <input type="number" value={this.state.price} onChange={this.handleChangePrice}  className="form-control" id="price" />
-                    </div>
-                    <button type="submit" onClick={ this.handleAddClick } className="btn btn-default">Add</button>
-                </div>
-                <div>
                     <h2>Ordered Item</h2>
                     <p>You have ordered the following item:</p>            
                     <table className="table">
@@ -67,7 +58,6 @@ let OrderForm = React.createClass({
                         }
                         </tbody>
                     </table>
-                </div>
             </div>
 );
 	}
@@ -75,7 +65,8 @@ let OrderForm = React.createClass({
 
 
 let order = [
-<OrderForm item = {order_items } />
+    <OrderForm item = { RStore.getOrders() } />
+//<OrderForm item = { order_items } />
 ];
 
 export default order

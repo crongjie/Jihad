@@ -71,7 +71,7 @@
 
 	var _pages2 = _interopRequireDefault(_pages);
 
-	var _RPage = __webpack_require__(83);
+	var _RPage = __webpack_require__(85);
 
 	var _RPage2 = _interopRequireDefault(_RPage);
 
@@ -6256,14 +6256,18 @@
 
 	var _payment2 = _interopRequireDefault(_payment);
 
-	var _order = __webpack_require__(72);
+	var _addOrder = __webpack_require__(72);
 
-	var _order2 = _interopRequireDefault(_order);
+	var _addOrder2 = _interopRequireDefault(_addOrder);
+
+	var _orderList = __webpack_require__(84);
+
+	var _orderList2 = _interopRequireDefault(_orderList);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var pages = {
-		home: _home2.default, payment: _payment2.default, order: _order2.default
+		home: _home2.default, payment: _payment2.default, addOrder: _addOrder2.default, orderList: _orderList2.default
 	};
 
 	exports.default = pages;
@@ -6318,9 +6322,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _RStore = __webpack_require__(73);
+
+	var _RStore2 = _interopRequireDefault(_RStore);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var QRCode = __webpack_require__(73);
+	var QRCode = __webpack_require__(74);
 
 	var order_items = [];
 	var item_id = 0;
@@ -6366,8 +6374,10 @@
 	    },
 	    handleAddClick: function handleAddClick(event) {
 	        ++item_id;
-	        order_items.push({ id: item_id, name: this.state.name, price: this.state.price });
+	        _RStore2.default.addOrder({ id: item_id, name: this.state.name, price: this.state.price });
+	        //order_items.push( { id: item_id, name: this.state.name, price: this.state.price })
 	        this.setState({ name: '', price: '' });
+	        toastr.success('Item added');
 	    },
 	    render: function render() {
 	        var list = this.props.item;
@@ -6376,91 +6386,95 @@
 	            null,
 	            _react2.default.createElement(
 	                'div',
-	                null,
+	                { className: 'form-group' },
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'form-group' },
-	                    _react2.default.createElement(
-	                        'label',
-	                        null,
-	                        'Item Name:'
-	                    ),
-	                    _react2.default.createElement('input', { type: 'text', value: this.state.name, onChange: this.handleChangeName, className: 'form-control', id: 'item_name' })
+	                    'label',
+	                    null,
+	                    'Item Name:'
 	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'form-group' },
-	                    _react2.default.createElement(
-	                        'label',
-	                        null,
-	                        'Price:'
-	                    ),
-	                    _react2.default.createElement('input', { type: 'number', value: this.state.price, onChange: this.handleChangePrice, className: 'form-control', id: 'price' })
-	                ),
-	                _react2.default.createElement(
-	                    'button',
-	                    { type: 'submit', onClick: this.handleAddClick, className: 'btn btn-default' },
-	                    'Add'
-	                )
+	                _react2.default.createElement('input', { type: 'text', value: this.state.name, onChange: this.handleChangeName, className: 'form-control', id: 'item_name' })
 	            ),
 	            _react2.default.createElement(
 	                'div',
-	                null,
+	                { className: 'form-group' },
 	                _react2.default.createElement(
-	                    'h2',
+	                    'label',
 	                    null,
-	                    'Ordered Item'
+	                    'Description:'
 	                ),
+	                _react2.default.createElement('textarea', { className: 'form-control', rows: '5', id: 'item_description' })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
 	                _react2.default.createElement(
-	                    'p',
+	                    'label',
 	                    null,
-	                    'You have ordered the following item:'
+	                    'URL:'
 	                ),
+	                _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'item_url' })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
 	                _react2.default.createElement(
-	                    'table',
-	                    { className: 'table' },
-	                    _react2.default.createElement(
-	                        'thead',
-	                        null,
-	                        _react2.default.createElement(
-	                            'tr',
-	                            null,
-	                            _react2.default.createElement(
-	                                'th',
-	                                null,
-	                                'Name'
-	                            ),
-	                            _react2.default.createElement(
-	                                'th',
-	                                null,
-	                                'Price'
-	                            ),
-	                            _react2.default.createElement(
-	                                'th',
-	                                null,
-	                                'QR Code'
-	                            )
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'tbody',
-	                        null,
-	                        list.map(function (item, idx) {
-	                            return _react2.default.createElement(OrderItem, { key: 'pi' + idx, item: item });
-	                        })
-	                    )
-	                )
+	                    'label',
+	                    null,
+	                    'Image URL:'
+	                ),
+	                _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'item_image_url' })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Price:'
+	                ),
+	                _react2.default.createElement('input', { type: 'number', value: this.state.price, onChange: this.handleChangePrice, className: 'form-control', id: 'price' })
+	            ),
+	            _react2.default.createElement(
+	                'button',
+	                { onClick: this.handleAddClick, className: 'btn btn-default' },
+	                'Add'
 	            )
 	        );
 	    }
 	});
 
-	var order = [_react2.default.createElement(OrderForm, { item: order_items })];
+	var order = [_react2.default.createElement(OrderForm, { item: _RStore2.default.getOrders() })
+	//<OrderForm item = { order_items } />
+	];
 
 	exports.default = order;
 
 /***/ },
 /* 73 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var order_items = [];
+	var item_id = 0;
+
+	var RStore = {
+	    getOrders: function getOrders() {
+	        return order_items;
+	    },
+	    addOrder: function addOrder(item) {
+	        order_items.push(item);
+	    }
+	};
+
+	exports.default = RStore;
+
+/***/ },
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6468,8 +6482,8 @@
 	var React = __webpack_require__(2);
 	// qr.js doesn't handle error level of zero (M) so we need to do it right,
 	// thus the deep require.
-	var QRCodeImpl = __webpack_require__(74);
-	var ErrorCorrectLevel = __webpack_require__(78);
+	var QRCodeImpl = __webpack_require__(75);
+	var ErrorCorrectLevel = __webpack_require__(79);
 
 	function getBackingStorePixelRatio(ctx) {
 	  return ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio || ctx.msBackingStorePixelRatio || ctx.oBackingStorePixelRatio || ctx.backingStorePixelRatio || 1;
@@ -6572,16 +6586,16 @@
 	module.exports = QRCode;
 
 /***/ },
-/* 74 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var BitByte = __webpack_require__(75);
-	var RSBlock = __webpack_require__(77);
-	var BitBuffer = __webpack_require__(79);
-	var util = __webpack_require__(80);
-	var Polynomial = __webpack_require__(81);
+	var BitByte = __webpack_require__(76);
+	var RSBlock = __webpack_require__(78);
+	var BitBuffer = __webpack_require__(80);
+	var util = __webpack_require__(81);
+	var Polynomial = __webpack_require__(82);
 
 	function QRCode(typeNumber, errorCorrectLevel) {
 		this.typeNumber = typeNumber;
@@ -7007,12 +7021,12 @@
 	module.exports = QRCode;
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var mode = __webpack_require__(76);
+	var mode = __webpack_require__(77);
 
 	function QR8bitByte(data) {
 		this.mode = mode.MODE_8BIT_BYTE;
@@ -7036,7 +7050,7 @@
 	module.exports = QR8bitByte;
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7049,13 +7063,13 @@
 	};
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	// ErrorCorrectLevel
-	var ECL = __webpack_require__(78);
+	var ECL = __webpack_require__(79);
 
 	function QRRSBlock(totalCount, dataCount) {
 		this.totalCount = totalCount;
@@ -7234,7 +7248,7 @@
 	module.exports = QRRSBlock;
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7247,7 +7261,7 @@
 	};
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7292,14 +7306,14 @@
 	module.exports = QRBitBuffer;
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Mode = __webpack_require__(76);
-	var Polynomial = __webpack_require__(81);
-	var math = __webpack_require__(82);
+	var Mode = __webpack_require__(77);
+	var Polynomial = __webpack_require__(82);
+	var math = __webpack_require__(83);
 
 	var QRMaskPattern = {
 		PATTERN000: 0,
@@ -7542,12 +7556,12 @@
 	module.exports = QRUtil;
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var math = __webpack_require__(82);
+	var math = __webpack_require__(83);
 
 	function QRPolynomial(num, shift) {
 
@@ -7616,7 +7630,7 @@
 	module.exports = QRPolynomial;
 
 /***/ },
-/* 82 */
+/* 83 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7664,7 +7678,7 @@
 	module.exports = QRMath;
 
 /***/ },
-/* 83 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7677,7 +7691,136 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _mainmenu = __webpack_require__(84);
+	var _RStore = __webpack_require__(73);
+
+	var _RStore2 = _interopRequireDefault(_RStore);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var QRCode = __webpack_require__(74);
+
+	var order_items = [];
+	var item_id = 0;
+
+	var OrderItem = _react2.default.createClass({
+	    displayName: 'OrderItem',
+
+	    render: function render() {
+	        var item = this.props.item;
+	        return _react2.default.createElement(
+	            'tr',
+	            null,
+	            _react2.default.createElement(
+	                'td',
+	                null,
+	                item.name
+	            ),
+	            _react2.default.createElement(
+	                'td',
+	                null,
+	                item.price
+	            ),
+	            _react2.default.createElement(
+	                'td',
+	                null,
+	                _react2.default.createElement(QRCode, { value: 'RJQRCode - ' + item.id })
+	            )
+	        );
+	    }
+	});
+
+	var OrderForm = _react2.default.createClass({
+	    displayName: 'OrderForm',
+
+	    getInitialState: function getInitialState() {
+	        return { name: '', price: '' };
+	    },
+	    handleChangeName: function handleChangeName(event) {
+	        this.setState({ name: event.target.value });
+	    },
+	    handleChangePrice: function handleChangePrice(event) {
+	        this.setState({ price: event.target.value });
+	    },
+	    handleAddClick: function handleAddClick(event) {
+	        ++item_id;
+	        _RStore2.default.addOrder({ id: item_id, name: this.state.name, price: this.state.price });
+	        //order_items.push( { id: item_id, name: this.state.name, price: this.state.price })
+	        this.setState({ name: '', price: '' });
+	    },
+	    render: function render() {
+	        var list = this.props.item;
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'h2',
+	                null,
+	                'Ordered Item'
+	            ),
+	            _react2.default.createElement(
+	                'p',
+	                null,
+	                'You have ordered the following item:'
+	            ),
+	            _react2.default.createElement(
+	                'table',
+	                { className: 'table' },
+	                _react2.default.createElement(
+	                    'thead',
+	                    null,
+	                    _react2.default.createElement(
+	                        'tr',
+	                        null,
+	                        _react2.default.createElement(
+	                            'th',
+	                            null,
+	                            'Name'
+	                        ),
+	                        _react2.default.createElement(
+	                            'th',
+	                            null,
+	                            'Price'
+	                        ),
+	                        _react2.default.createElement(
+	                            'th',
+	                            null,
+	                            'QR Code'
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'tbody',
+	                    null,
+	                    list.map(function (item, idx) {
+	                        return _react2.default.createElement(OrderItem, { key: 'pi' + idx, item: item });
+	                    })
+	                )
+	            )
+	        );
+	    }
+	});
+
+	var order = [_react2.default.createElement(OrderForm, { item: _RStore2.default.getOrders() })
+	//<OrderForm item = { order_items } />
+	];
+
+	exports.default = order;
+
+/***/ },
+/* 85 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _mainmenu = __webpack_require__(86);
 
 	var _mainmenu2 = _interopRequireDefault(_mainmenu);
 
@@ -7685,19 +7828,19 @@
 
 	var _pages2 = _interopRequireDefault(_pages);
 
-	var _RDesc = __webpack_require__(85);
+	var _RDesc = __webpack_require__(88);
 
 	var _RDesc2 = _interopRequireDefault(_RDesc);
 
-	var _RExample = __webpack_require__(86);
+	var _RExample = __webpack_require__(89);
 
 	var _RExample2 = _interopRequireDefault(_RExample);
 
-	var _RMemo = __webpack_require__(87);
+	var _RMemo = __webpack_require__(90);
 
 	var _RMemo2 = _interopRequireDefault(_RMemo);
 
-	var _RNavBar = __webpack_require__(88);
+	var _RNavBar = __webpack_require__(91);
 
 	var _RNavBar2 = _interopRequireDefault(_RNavBar);
 
@@ -7735,7 +7878,32 @@
 	exports.default = RPage;
 
 /***/ },
-/* 84 */
+/* 86 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _Ri18n = __webpack_require__(87);
+
+	var _Ri18n2 = _interopRequireDefault(_Ri18n);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mainmenu = {
+	    title: 'JiBuy!',
+	    items: [{ text: _Ri18n2.default.home, url: '/' }, { text: _Ri18n2.default.account_setting, url: '/' }, { text: _Ri18n2.default.rongjie_buy, url: '/', items: [{ text: _Ri18n2.default.add_order, url: '/addOrder' }, { text: _Ri18n2.default.check_order, url: '/orderList' }, { text: _Ri18n2.default.history, url: '/' }]
+	    }, { text: _Ri18n2.default.benji_buy, url: '/', items: [{ text: _Ri18n2.default.add_order, url: '/addOrder' }, { text: _Ri18n2.default.check_order, url: '/orderList' }, { text: _Ri18n2.default.history, url: '/' }]
+	    }, { text: _Ri18n2.default.charge, url: '/payment' }, { text: _Ri18n2.default.qr_confirm, url: '/' }, { text: _Ri18n2.default.about, url: '/' }, { text: _Ri18n2.default.login, url: '/' }]
+	};
+
+	exports.default = mainmenu;
+
+/***/ },
+/* 87 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -7743,16 +7911,25 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	var mainmenu = {
-	    title: 'JiBuy',
-	    items: [{ text: 'Home', url: '/' }, { text: 'Orders', url: '/', items: [{ text: 'Add Orders', url: '/order' }, { text: 'Check Status', url: '/' }, { text: 'History', url: '/' }, { type: 'separator' }, { text: 'JiBuy!', url: '/' }]
-	    }, { text: 'Payment', url: '/payment' }, { text: 'QR Code 確認收貨', url: '/' }, { text: 'About', url: '/' }, { text: 'Logout', url: '/' }]
+	var Ri18n = {
+	    home: '主頁',
+	    account_setting: '帳號設定',
+	    rongjie_buy: 'Rongjie Buy',
+	    benji_buy: 'Benji Buy',
+	    charge: '課金增值',
+	    add_order: '新增訂單',
+	    check_order: '訂單狀態',
+	    history: '購入履歷',
+	    about: '關於',
+	    qr_confirm: 'QR Code確認收貨',
+	    login: '登入',
+	    logout: '登出'
 	};
 
-	exports.default = mainmenu;
+	exports.default = Ri18n;
 
 /***/ },
-/* 85 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7820,7 +7997,7 @@
 	exports.default = RDesc;
 
 /***/ },
-/* 86 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7857,7 +8034,7 @@
 	exports.default = RExample;
 
 /***/ },
-/* 87 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7900,7 +8077,7 @@
 	exports.default = RMemo;
 
 /***/ },
-/* 88 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7933,9 +8110,9 @@
 	  displayName: 'RNavBar',
 
 	  render: function render() {
-	    var _props$data = this.props.data,
-	        title = _props$data.title,
-	        items = _props$data.items;
+	    var _props$data = this.props.data;
+	    var title = _props$data.title;
+	    var items = _props$data.items;
 
 
 	    return _react2.default.createElement(

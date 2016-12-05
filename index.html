@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- jQuery -->	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.js"></script>
 
@@ -34,6 +34,12 @@
 <body>
   <div id="main"></div>
   <script src="output/app.js"></script>
-  <script></script>
+  <script>
+  $(document).on('click','.navbar-collapse.in',function(e) {
+		if( $(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle' ) {
+			$(this).collapse('hide');
+		}
+	});
+  </script>
 </body>
 </html>
