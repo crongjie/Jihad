@@ -71,7 +71,7 @@
 
 	var _pages2 = _interopRequireDefault(_pages);
 
-	var _RPage = __webpack_require__(85);
+	var _RPage = __webpack_require__(86);
 
 	var _RPage2 = _interopRequireDefault(_RPage);
 
@@ -6260,7 +6260,7 @@
 
 	var _addOrder2 = _interopRequireDefault(_addOrder);
 
-	var _orderList = __webpack_require__(84);
+	var _orderList = __webpack_require__(85);
 
 	var _orderList2 = _interopRequireDefault(_orderList);
 
@@ -6326,9 +6326,13 @@
 
 	var _RStore2 = _interopRequireDefault(_RStore);
 
+	var _Ri18n = __webpack_require__(74);
+
+	var _Ri18n2 = _interopRequireDefault(_Ri18n);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var QRCode = __webpack_require__(74);
+	var QRCode = __webpack_require__(75);
 
 	var order_items = [];
 	var item_id = 0;
@@ -6364,7 +6368,7 @@
 	    displayName: 'OrderForm',
 
 	    getInitialState: function getInitialState() {
-	        return { name: '', price: '' };
+	        return { orderType: '0', name: '', price: '' };
 	    },
 	    handleChangeName: function handleChangeName(event) {
 	        this.setState({ name: event.target.value });
@@ -6372,11 +6376,16 @@
 	    handleChangePrice: function handleChangePrice(event) {
 	        this.setState({ price: event.target.value });
 	    },
+	    handleChangeOrderType: function handleChangeOrderType(event) {
+	        console.log(event.target.value);
+	        console.log(event);
+	        this.setState({ orderType: event.target.value });
+	    },
 	    handleAddClick: function handleAddClick(event) {
 	        ++item_id;
 	        _RStore2.default.addOrder({ id: item_id, name: this.state.name, price: this.state.price });
 	        //order_items.push( { id: item_id, name: this.state.name, price: this.state.price })
-	        this.setState({ name: '', price: '' });
+	        this.setState({ orderType: '0', name: '', price: '' });
 	        toastr.success('Item added');
 	    },
 	    render: function render() {
@@ -6389,8 +6398,36 @@
 	                { className: 'form-group' },
 	                _react2.default.createElement(
 	                    'label',
+	                    { className: 'control-label' },
+	                    'Color'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'selectContainer' },
+	                    _react2.default.createElement(
+	                        'select',
+	                        { className: 'form-control', name: 'color', value: this.state.orderType, onChange: this.handleChangeOrderType },
+	                        _react2.default.createElement(
+	                            'option',
+	                            { value: '0' },
+	                            _Ri18n2.default.order_type_normal
+	                        ),
+	                        _react2.default.createElement(
+	                            'option',
+	                            { value: '1' },
+	                            _Ri18n2.default.order_type_find
+	                        )
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                _react2.default.createElement(
+	                    'label',
 	                    null,
-	                    'Item Name:'
+	                    _Ri18n2.default.item_name,
+	                    ':'
 	                ),
 	                _react2.default.createElement('input', { type: 'text', value: this.state.name, onChange: this.handleChangeName, className: 'form-control', id: 'item_name' })
 	            ),
@@ -6400,7 +6437,8 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    'Description:'
+	                    _Ri18n2.default.description,
+	                    ':'
 	                ),
 	                _react2.default.createElement('textarea', { className: 'form-control', rows: '5', id: 'item_description' })
 	            ),
@@ -6410,7 +6448,8 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    'URL:'
+	                    _Ri18n2.default.url,
+	                    ':'
 	                ),
 	                _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'item_url' })
 	            ),
@@ -6420,19 +6459,109 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    'Image URL:'
+	                    _Ri18n2.default.image_url,
+	                    ':'
 	                ),
 	                _react2.default.createElement('input', { type: 'text', className: 'form-control', id: 'item_image_url' })
 	            ),
-	            _react2.default.createElement(
+	            this.state.orderType == '1' ? _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-group' },
+	                    _react2.default.createElement(
+	                        'label',
+	                        null,
+	                        _Ri18n2.default.original_price,
+	                        ':'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'inputGroupContainer' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'input-group' },
+	                            _react2.default.createElement('input', { type: 'text', value: this.state.price, onChange: this.handleChangePrice, className: 'form-control', name: 'price' }),
+	                            _react2.default.createElement(
+	                                'span',
+	                                { className: 'input-group-addon' },
+	                                _Ri18n2.default.jap_dollar
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-group' },
+	                    _react2.default.createElement(
+	                        'label',
+	                        null,
+	                        _Ri18n2.default.highest_price,
+	                        ':'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'inputGroupContainer' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'input-group' },
+	                            _react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'price' }),
+	                            _react2.default.createElement(
+	                                'span',
+	                                { className: 'input-group-addon' },
+	                                _Ri18n2.default.jap_dollar
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'form-group' },
+	                    _react2.default.createElement(
+	                        'label',
+	                        null,
+	                        _Ri18n2.default.actual_price,
+	                        ':'
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'inputGroupContainer' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'input-group' },
+	                            _react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'price' }),
+	                            _react2.default.createElement(
+	                                'span',
+	                                { className: 'input-group-addon' },
+	                                _Ri18n2.default.jap_dollar
+	                            )
+	                        )
+	                    )
+	                )
+	            ) : _react2.default.createElement(
 	                'div',
 	                { className: 'form-group' },
 	                _react2.default.createElement(
 	                    'label',
 	                    null,
-	                    'Price:'
+	                    _Ri18n2.default.price,
+	                    ':'
 	                ),
-	                _react2.default.createElement('input', { type: 'number', value: this.state.price, onChange: this.handleChangePrice, className: 'form-control', id: 'price' })
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'inputGroupContainer' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'input-group' },
+	                        _react2.default.createElement('input', { type: 'text', value: this.state.price, onChange: this.handleChangePrice, className: 'form-control', name: 'price' }),
+	                        _react2.default.createElement(
+	                            'span',
+	                            { className: 'input-group-addon' },
+	                            _Ri18n2.default.jap_dollar
+	                        )
+	                    )
+	                )
 	            ),
 	            _react2.default.createElement(
 	                'button',
@@ -6475,6 +6604,52 @@
 
 /***/ },
 /* 74 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var Ri18n = {
+	    home: '主頁',
+	    account_setting: '帳號設定',
+	    rongjie_buy: 'Rongjie Buy',
+	    benji_buy: 'Benji Buy',
+	    charge: '課金增值',
+	    add_order: '新增訂單',
+	    check_order: '訂單狀態',
+	    history: '購入履歷',
+	    about: '關於',
+	    qr_confirm: 'QR Code確認收貨',
+	    order_type_normal: '一般購入',
+	    order_type_find: '物品尋找',
+	    price: '價錢',
+	    actual_price: '實際價錢',
+	    highest_price: '最高可接受的價錢',
+	    original_price: '原價',
+	    extra_price: '額外收費',
+	    item_name: '物品名稱',
+	    description: '說明',
+	    url: '網址',
+	    jap_dollar: '円',
+	    hkd: '$(HKD)',
+	    image_url: '圖片網址',
+	    add: '新增',
+	    save: '保存',
+	    ok: 'OK',
+	    edit: '編輯',
+	    delete: '刪除',
+	    cancel: '取消',
+	    back: '返回',
+	    login: '登入',
+	    logout: '登出'
+	};
+
+	exports.default = Ri18n;
+
+/***/ },
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6482,8 +6657,8 @@
 	var React = __webpack_require__(2);
 	// qr.js doesn't handle error level of zero (M) so we need to do it right,
 	// thus the deep require.
-	var QRCodeImpl = __webpack_require__(75);
-	var ErrorCorrectLevel = __webpack_require__(79);
+	var QRCodeImpl = __webpack_require__(76);
+	var ErrorCorrectLevel = __webpack_require__(80);
 
 	function getBackingStorePixelRatio(ctx) {
 	  return ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio || ctx.msBackingStorePixelRatio || ctx.oBackingStorePixelRatio || ctx.backingStorePixelRatio || 1;
@@ -6586,16 +6761,16 @@
 	module.exports = QRCode;
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var BitByte = __webpack_require__(76);
-	var RSBlock = __webpack_require__(78);
-	var BitBuffer = __webpack_require__(80);
-	var util = __webpack_require__(81);
-	var Polynomial = __webpack_require__(82);
+	var BitByte = __webpack_require__(77);
+	var RSBlock = __webpack_require__(79);
+	var BitBuffer = __webpack_require__(81);
+	var util = __webpack_require__(82);
+	var Polynomial = __webpack_require__(83);
 
 	function QRCode(typeNumber, errorCorrectLevel) {
 		this.typeNumber = typeNumber;
@@ -7021,12 +7196,12 @@
 	module.exports = QRCode;
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var mode = __webpack_require__(77);
+	var mode = __webpack_require__(78);
 
 	function QR8bitByte(data) {
 		this.mode = mode.MODE_8BIT_BYTE;
@@ -7050,7 +7225,7 @@
 	module.exports = QR8bitByte;
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7063,13 +7238,13 @@
 	};
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	// ErrorCorrectLevel
-	var ECL = __webpack_require__(79);
+	var ECL = __webpack_require__(80);
 
 	function QRRSBlock(totalCount, dataCount) {
 		this.totalCount = totalCount;
@@ -7248,7 +7423,7 @@
 	module.exports = QRRSBlock;
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7261,7 +7436,7 @@
 	};
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7306,14 +7481,14 @@
 	module.exports = QRBitBuffer;
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Mode = __webpack_require__(77);
-	var Polynomial = __webpack_require__(82);
-	var math = __webpack_require__(83);
+	var Mode = __webpack_require__(78);
+	var Polynomial = __webpack_require__(83);
+	var math = __webpack_require__(84);
 
 	var QRMaskPattern = {
 		PATTERN000: 0,
@@ -7556,12 +7731,12 @@
 	module.exports = QRUtil;
 
 /***/ },
-/* 82 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var math = __webpack_require__(83);
+	var math = __webpack_require__(84);
 
 	function QRPolynomial(num, shift) {
 
@@ -7630,7 +7805,7 @@
 	module.exports = QRPolynomial;
 
 /***/ },
-/* 83 */
+/* 84 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7678,7 +7853,7 @@
 	module.exports = QRMath;
 
 /***/ },
-/* 84 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7697,7 +7872,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var QRCode = __webpack_require__(74);
+	var QRCode = __webpack_require__(75);
 
 	var order_items = [];
 	var item_id = 0;
@@ -7807,7 +7982,7 @@
 	exports.default = order;
 
 /***/ },
-/* 85 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7820,7 +7995,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _mainmenu = __webpack_require__(86);
+	var _mainmenu = __webpack_require__(87);
 
 	var _mainmenu2 = _interopRequireDefault(_mainmenu);
 
@@ -7878,7 +8053,7 @@
 	exports.default = RPage;
 
 /***/ },
-/* 86 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7887,7 +8062,7 @@
 	    value: true
 	});
 
-	var _Ri18n = __webpack_require__(87);
+	var _Ri18n = __webpack_require__(74);
 
 	var _Ri18n2 = _interopRequireDefault(_Ri18n);
 
@@ -7901,32 +8076,6 @@
 	};
 
 	exports.default = mainmenu;
-
-/***/ },
-/* 87 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	var Ri18n = {
-	    home: '主頁',
-	    account_setting: '帳號設定',
-	    rongjie_buy: 'Rongjie Buy',
-	    benji_buy: 'Benji Buy',
-	    charge: '課金增值',
-	    add_order: '新增訂單',
-	    check_order: '訂單狀態',
-	    history: '購入履歷',
-	    about: '關於',
-	    qr_confirm: 'QR Code確認收貨',
-	    login: '登入',
-	    logout: '登出'
-	};
-
-	exports.default = Ri18n;
 
 /***/ },
 /* 88 */
