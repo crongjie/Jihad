@@ -7,7 +7,7 @@ import pages from './data/pages.js'
 import RDesc from './RDesc.js' 
 import RExample from './RExample.js' 
 import RMemo from './RMemo.js' 
-
+import RStore from './data/RStore.js'
 import RNavBar from './RNavBar.js' 
 
 let RPage = React.createClass({
@@ -22,7 +22,7 @@ let RPage = React.createClass({
         }
 
         return (<div>        
-        <RNavBar data = { data_mainmenu } />
+        <RNavBar data = { data_mainmenu }  />
         {
             (data) ? <div className="container">
                     {
