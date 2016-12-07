@@ -71,7 +71,7 @@
 
 	var _pages2 = _interopRequireDefault(_pages);
 
-	var _RPage = __webpack_require__(86);
+	var _RPage = __webpack_require__(87);
 
 	var _RPage2 = _interopRequireDefault(_RPage);
 
@@ -6252,15 +6252,15 @@
 
 	var _home2 = _interopRequireDefault(_home);
 
-	var _payment = __webpack_require__(71);
+	var _payment = __webpack_require__(72);
 
 	var _payment2 = _interopRequireDefault(_payment);
 
-	var _addOrder = __webpack_require__(72);
+	var _addOrder = __webpack_require__(73);
 
 	var _addOrder2 = _interopRequireDefault(_addOrder);
 
-	var _orderList = __webpack_require__(85);
+	var _orderList = __webpack_require__(86);
 
 	var _orderList2 = _interopRequireDefault(_orderList);
 
@@ -6274,7 +6274,7 @@
 
 /***/ },
 /* 70 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -6282,16 +6282,117 @@
 		value: true
 	});
 
+	var _RGoogleInfo = __webpack_require__(71);
+
+	var _RGoogleInfo2 = _interopRequireDefault(_RGoogleInfo);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var home = [{
 		type: 'memo',
 		title: 'JiBuy',
 		text: "Welcome to JiBuy~"
-	}];
+	}, React.createElement(_RGoogleInfo2.default, null)];
 
 	exports.default = home;
 
 /***/ },
 /* 71 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var RGoogleInfo = _react2.default.createClass({
+	    displayName: 'RGoogleInfo',
+
+	    getInitialState: function getInitialState() {
+	        return { loginDisabled: false, loggedIn: false, userInfo: {}, displayName: '', email: '', photoURL: '' };
+	    },
+	    componentDidMount: function componentDidMount() {
+	        var oThis = this;
+	        // Listening for auth state changes.
+	        // [START authstatelistener]
+	        firebase.auth().onAuthStateChanged(function (user) {
+	            if (user) {
+	                // User is signed in.
+	                var displayName = user.displayName;
+	                var email = user.email;
+	                var emailVerified = user.emailVerified;
+	                var photoURL = user.photoURL;
+	                var isAnonymous = user.isAnonymous;
+	                var uid = user.uid;
+	                var providerData = user.providerData;
+	                // [START_EXCLUDE]
+	                //document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+	                //document.getElementById('quickstart-sign-in').textContent = 'Sign out';
+	                //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+	                //alert(JSON.stringify(user, null, '  '));
+	                oThis.setState({ loggedIn: true, userInfo: user });
+	            } else {
+	                oThis.setState({ loggedIn: false, userInfo: {} });
+	            }
+	        });
+	        // [END authstatelistener]
+	    },
+	    render: function render() {
+	        var item = this.props.item;
+	        return this.state.loggedIn ? _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'h4',
+	                null,
+	                'User Info from your Google Account'
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                _react2.default.createElement('img', { src: this.state.userInfo.photoURL, style: { maxHeight: 100, maxWidth: 100 } })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'User Name:'
+	                ),
+	                _react2.default.createElement('input', { readOnly: true, type: 'text', value: this.state.userInfo.displayName, className: 'form-control' })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    'Email:'
+	                ),
+	                _react2.default.createElement('input', { readOnly: true, type: 'text', value: this.state.userInfo.email, className: 'form-control' })
+	            )
+	        ) : _react2.default.createElement(
+	            'h4',
+	            null,
+	            'You have not logged in yet!'
+	        );
+	    }
+	}); /*
+	    RGoogleInfo - RGoogleInfo Component
+	    */
+	exports.default = RGoogleInfo;
+
+/***/ },
+/* 72 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -6309,7 +6410,7 @@
 	exports.default = payment;
 
 /***/ },
-/* 72 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6322,17 +6423,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _RStore = __webpack_require__(73);
+	var _RStore = __webpack_require__(74);
 
 	var _RStore2 = _interopRequireDefault(_RStore);
 
-	var _Ri18n = __webpack_require__(74);
+	var _Ri18n = __webpack_require__(75);
 
 	var _Ri18n2 = _interopRequireDefault(_Ri18n);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var QRCode = __webpack_require__(75);
+	var QRCode = __webpack_require__(76);
 
 	var order_items = [];
 	var item_id = 0;
@@ -6579,10 +6680,10 @@
 	exports.default = order;
 
 /***/ },
-/* 73 */
+/* 74 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -6590,8 +6691,23 @@
 
 	var order_items = [];
 	var item_id = 0;
+	var loggedIn = false;
+	var googleUserInfo = {};
 
 	var RStore = {
+	    setGoogleUserInfo: function setGoogleUserInfo(userInfo) {
+	        googleUserInfo = userInfo;
+	    },
+	    getGoogleUserInfo: function getGoogleUserInfo() {
+	        return googleUserInfo;
+	    },
+	    setLoggedIn: function setLoggedIn(isLoggedIn) {
+	        loggedIn = isLoggedIn;
+	    },
+	    getLoggedIn: function getLoggedIn() {
+	        console.log('getLoggedIn' + loggedIn);
+	        return loggedIn;
+	    },
 	    getOrders: function getOrders() {
 	        return order_items;
 	    },
@@ -6603,7 +6719,7 @@
 	exports.default = RStore;
 
 /***/ },
-/* 74 */
+/* 75 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -6649,7 +6765,7 @@
 	exports.default = Ri18n;
 
 /***/ },
-/* 75 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6657,8 +6773,8 @@
 	var React = __webpack_require__(2);
 	// qr.js doesn't handle error level of zero (M) so we need to do it right,
 	// thus the deep require.
-	var QRCodeImpl = __webpack_require__(76);
-	var ErrorCorrectLevel = __webpack_require__(80);
+	var QRCodeImpl = __webpack_require__(77);
+	var ErrorCorrectLevel = __webpack_require__(81);
 
 	function getBackingStorePixelRatio(ctx) {
 	  return ctx.webkitBackingStorePixelRatio || ctx.mozBackingStorePixelRatio || ctx.msBackingStorePixelRatio || ctx.oBackingStorePixelRatio || ctx.backingStorePixelRatio || 1;
@@ -6761,16 +6877,16 @@
 	module.exports = QRCode;
 
 /***/ },
-/* 76 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var BitByte = __webpack_require__(77);
-	var RSBlock = __webpack_require__(79);
-	var BitBuffer = __webpack_require__(81);
-	var util = __webpack_require__(82);
-	var Polynomial = __webpack_require__(83);
+	var BitByte = __webpack_require__(78);
+	var RSBlock = __webpack_require__(80);
+	var BitBuffer = __webpack_require__(82);
+	var util = __webpack_require__(83);
+	var Polynomial = __webpack_require__(84);
 
 	function QRCode(typeNumber, errorCorrectLevel) {
 		this.typeNumber = typeNumber;
@@ -7196,12 +7312,12 @@
 	module.exports = QRCode;
 
 /***/ },
-/* 77 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var mode = __webpack_require__(78);
+	var mode = __webpack_require__(79);
 
 	function QR8bitByte(data) {
 		this.mode = mode.MODE_8BIT_BYTE;
@@ -7225,7 +7341,7 @@
 	module.exports = QR8bitByte;
 
 /***/ },
-/* 78 */
+/* 79 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7238,13 +7354,13 @@
 	};
 
 /***/ },
-/* 79 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	// ErrorCorrectLevel
-	var ECL = __webpack_require__(80);
+	var ECL = __webpack_require__(81);
 
 	function QRRSBlock(totalCount, dataCount) {
 		this.totalCount = totalCount;
@@ -7423,7 +7539,7 @@
 	module.exports = QRRSBlock;
 
 /***/ },
-/* 80 */
+/* 81 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7436,7 +7552,7 @@
 	};
 
 /***/ },
-/* 81 */
+/* 82 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7481,14 +7597,14 @@
 	module.exports = QRBitBuffer;
 
 /***/ },
-/* 82 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Mode = __webpack_require__(78);
-	var Polynomial = __webpack_require__(83);
-	var math = __webpack_require__(84);
+	var Mode = __webpack_require__(79);
+	var Polynomial = __webpack_require__(84);
+	var math = __webpack_require__(85);
 
 	var QRMaskPattern = {
 		PATTERN000: 0,
@@ -7731,12 +7847,12 @@
 	module.exports = QRUtil;
 
 /***/ },
-/* 83 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var math = __webpack_require__(84);
+	var math = __webpack_require__(85);
 
 	function QRPolynomial(num, shift) {
 
@@ -7805,7 +7921,7 @@
 	module.exports = QRPolynomial;
 
 /***/ },
-/* 84 */
+/* 85 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7853,7 +7969,7 @@
 	module.exports = QRMath;
 
 /***/ },
-/* 85 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7866,13 +7982,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _RStore = __webpack_require__(73);
+	var _RStore = __webpack_require__(74);
 
 	var _RStore2 = _interopRequireDefault(_RStore);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var QRCode = __webpack_require__(75);
+	var QRCode = __webpack_require__(76);
 
 	var order_items = [];
 	var item_id = 0;
@@ -7982,7 +8098,7 @@
 	exports.default = order;
 
 /***/ },
-/* 86 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7995,7 +8111,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _mainmenu = __webpack_require__(87);
+	var _mainmenu = __webpack_require__(88);
 
 	var _mainmenu2 = _interopRequireDefault(_mainmenu);
 
@@ -8003,24 +8119,31 @@
 
 	var _pages2 = _interopRequireDefault(_pages);
 
-	var _RDesc = __webpack_require__(88);
+	var _RDesc = __webpack_require__(89);
 
 	var _RDesc2 = _interopRequireDefault(_RDesc);
 
-	var _RExample = __webpack_require__(89);
+	var _RExample = __webpack_require__(90);
 
 	var _RExample2 = _interopRequireDefault(_RExample);
 
-	var _RMemo = __webpack_require__(90);
+	var _RMemo = __webpack_require__(91);
 
 	var _RMemo2 = _interopRequireDefault(_RMemo);
 
-	var _RNavBar = __webpack_require__(91);
+	var _RStore = __webpack_require__(74);
+
+	var _RStore2 = _interopRequireDefault(_RStore);
+
+	var _RNavBar = __webpack_require__(92);
 
 	var _RNavBar2 = _interopRequireDefault(_RNavBar);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/*
+	RPage - Page Component
+	*/
 	var RPage = _react2.default.createClass({
 	    displayName: 'RPage',
 
@@ -8047,13 +8170,12 @@
 	            ) : 'Page Not found'
 	        );
 	    }
-	}); /*
-	    RPage - Page Component
-	    */
+	});
+
 	exports.default = RPage;
 
 /***/ },
-/* 87 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8062,7 +8184,7 @@
 	    value: true
 	});
 
-	var _Ri18n = __webpack_require__(74);
+	var _Ri18n = __webpack_require__(75);
 
 	var _Ri18n2 = _interopRequireDefault(_Ri18n);
 
@@ -8072,13 +8194,13 @@
 	    title: 'JiBuy!',
 	    items: [{ text: _Ri18n2.default.home, url: '/' }, { text: _Ri18n2.default.account_setting, url: '/' }, { text: _Ri18n2.default.rongjie_buy, url: '/', items: [{ text: _Ri18n2.default.add_order, url: '/addOrder' }, { text: _Ri18n2.default.check_order, url: '/orderList' }, { text: _Ri18n2.default.history, url: '/' }]
 	    }, { text: _Ri18n2.default.benji_buy, url: '/', items: [{ text: _Ri18n2.default.add_order, url: '/addOrder' }, { text: _Ri18n2.default.check_order, url: '/orderList' }, { text: _Ri18n2.default.history, url: '/' }]
-	    }, { text: _Ri18n2.default.charge, url: '/payment' }, { text: _Ri18n2.default.qr_confirm, url: '/' }, { text: _Ri18n2.default.about, url: '/' }, { text: _Ri18n2.default.login, url: '/' }]
+	    }, { text: _Ri18n2.default.charge, url: '/payment' }, { text: _Ri18n2.default.qr_confirm, url: '/' }, { text: _Ri18n2.default.about, url: '/' }]
 	};
 
 	exports.default = mainmenu;
 
 /***/ },
-/* 88 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8146,7 +8268,7 @@
 	exports.default = RDesc;
 
 /***/ },
-/* 89 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8183,7 +8305,7 @@
 	exports.default = RExample;
 
 /***/ },
-/* 90 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8226,13 +8348,13 @@
 	exports.default = RMemo;
 
 /***/ },
-/* 91 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 
 	var _react = __webpack_require__(2);
@@ -8241,14 +8363,22 @@
 
 	var _reactRouter = __webpack_require__(4);
 
+	var _RStore = __webpack_require__(74);
+
+	var _RStore2 = _interopRequireDefault(_RStore);
+
+	var _Ri18n = __webpack_require__(75);
+
+	var _Ri18n2 = _interopRequireDefault(_Ri18n);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/*
 	RNavBar - Nav Bar Component
 	*/
 	function getBaseUrl() {
-	  var re = new RegExp(/^.*\//);
-	  return "" + re.exec(window.location.pathname);
+	    var re = new RegExp(/^.*\//);
+	    return "" + re.exec(window.location.pathname);
 	}
 
 	var BASE_URL = getBaseUrl();
@@ -8256,100 +8386,222 @@
 
 
 	var RNavBar = _react2.default.createClass({
-	  displayName: 'RNavBar',
-
-	  render: function render() {
-	    var _props$data = this.props.data;
-	    var title = _props$data.title;
-	    var items = _props$data.items;
+	    displayName: 'RNavBar',
 
 
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'container' },
-	      _react2.default.createElement(
-	        'nav',
-	        { className: 'navbar navbar-default' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'container-fluid' },
-	          _react2.default.createElement(
+	    getInitialState: function getInitialState() {
+	        return { loginDisabled: false, loginText: _Ri18n2.default.login, loggedIn: false };
+	    },
+	    componentDidMount: function componentDidMount() {
+	        var oThis = this;
+	        // Result from Redirect auth flow.
+	        // [START getidptoken]
+	        firebase.auth().getRedirectResult().then(function (result) {
+	            if (result.credential) {
+	                // This gives you a Google Access Token. You can use it to access the Google API.
+	                var token = result.credential.accessToken;
+	                // [START_EXCLUDE]
+	                //alert(token);
+	                //document.getElementById('quickstart-oauthtoken').textContent = token;
+	            } else {}
+	                //document.getElementById('quickstart-oauthtoken').textContent = 'null';
+	                // [END_EXCLUDE]
+	                //alert('no token');
+
+	                // The signed-in user info.
+	            var user = result.user;
+	        }).catch(function (error) {
+	            // Handle Errors here.
+	            var errorCode = error.code;
+	            var errorMessage = error.message;
+	            // The email of the user's account used.
+	            var email = error.email;
+	            // The firebase.auth.AuthCredential type that was used.
+	            var credential = error.credential;
+	            // [START_EXCLUDE]
+	            if (errorCode === 'auth/account-exists-with-different-credential') {
+	                alert('You have already signed up with a different auth provider for that email.');
+	                // If you are using multiple auth providers on your app you should handle linking
+	                // the user's accounts here.
+	            } else {
+	                console.error(error);
+	            }
+	            // [END_EXCLUDE]
+	        });
+	        // [END getidptoken]
+
+	        // Listening for auth state changes.
+	        // [START authstatelistener]
+	        firebase.auth().onAuthStateChanged(function (user) {
+	            if (user) {
+	                // User is signed in.
+	                var displayName = user.displayName;
+	                var email = user.email;
+	                var emailVerified = user.emailVerified;
+	                var photoURL = user.photoURL;
+	                var isAnonymous = user.isAnonymous;
+	                var uid = user.uid;
+	                var providerData = user.providerData;
+	                // [START_EXCLUDE]
+	                //document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+	                //document.getElementById('quickstart-sign-in').textContent = 'Sign out';
+	                //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+	                //alert(JSON.stringify(user, null, '  '));
+	                oThis.setState({ loginText: _Ri18n2.default.logout, loggedIn: true });
+	                _RStore2.default.setGoogleUserInfo(user);
+	                _RStore2.default.setLoggedIn(true);
+	                // [END_EXCLUDE]
+	            } else {
+	                // User is signed out.
+	                // [START_EXCLUDE]
+	                //document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+	                // document.getElementById('quickstart-sign-in').textContent = 'Sign in with Google';
+	                // document.getElementById('quickstart-account-details').textContent = 'null';
+	                //document.getElementById('quickstart-oauthtoken').textContent = 'null';
+	                // [END_EXCLUDE]
+	                //alert('Sign in with Google');
+	                oThis.setState({ loginText: _Ri18n2.default.login, loggedIn: false });
+	                _RStore2.default.setGoogleUserInfo({});
+	                _RStore2.default.setLoggedIn(false);
+	            }
+	            // [START_EXCLUDE]
+	            //document.getElementById('quickstart-sign-in').disabled = false;
+	            oThis.setState({ disabled: false });
+	            // [END_EXCLUDE]
+	        });
+	        // [END authstatelistener]
+	    },
+	    clickLogin: function clickLogin() {
+	        if (!firebase.auth().currentUser) {
+	            // [START createprovider]
+	            var provider = new firebase.auth.GoogleAuthProvider();
+	            // [END createprovider]
+	            // [START addscopes]
+	            provider.addScope('https://www.googleapis.com/auth/plus.login');
+	            // [END addscopes]
+	            // [START signin]
+	            firebase.auth().signInWithRedirect(provider);
+	            // [END signin]
+	        } else {
+	            // [START signout]
+	            firebase.auth().signOut();
+	            // [END signout]
+	        }
+	        // [START_EXCLUDE]
+	        //document.getElementById('quickstart-sign-in').disabled = true;
+	        this.setState({ disabled: true });
+	        // [END_EXCLUDE]
+	    },
+	    render: function render() {
+	        var _props$data = this.props.data,
+	            title = _props$data.title,
+	            items = _props$data.items;
+
+
+	        return _react2.default.createElement(
 	            'div',
-	            { className: 'navbar-header' },
+	            { className: 'container' },
 	            _react2.default.createElement(
-	              'button',
-	              { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#navbar', 'aria-expanded': 'false', 'aria-controls': 'navbar' },
-	              _react2.default.createElement(
-	                'span',
-	                { className: 'sr-only' },
-	                'Toggle navigation'
-	              ),
-	              _react2.default.createElement('span', { className: 'icon-bar' }),
-	              _react2.default.createElement('span', { className: 'icon-bar' }),
-	              _react2.default.createElement('span', { className: 'icon-bar' })
-	            ),
-	            _react2.default.createElement(
-	              'a',
-	              { className: 'navbar-brand', href: '#' },
-	              title
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { id: 'navbar', className: 'navbar-collapse collapse' },
-	            _react2.default.createElement(
-	              'ul',
-	              { className: 'nav navbar-nav' },
-	              items.map(function (menuitem, idx) {
-	                if (menuitem.items) {
-	                  return _react2.default.createElement(
-	                    'li',
-	                    { key: 'mi' + idx, className: 'dropdown' },
+	                'nav',
+	                { className: 'navbar navbar-default' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'container-fluid' },
 	                    _react2.default.createElement(
-	                      'a',
-	                      { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button', 'aria-haspopup': 'true', 'aria-expanded': 'false' },
-	                      menuitem.text,
-	                      ' ',
-	                      _react2.default.createElement('span', { className: 'caret' })
+	                        'div',
+	                        { className: 'navbar-header' },
+	                        _react2.default.createElement(
+	                            'button',
+	                            { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#navbar', 'aria-expanded': 'false', 'aria-controls': 'navbar' },
+	                            _react2.default.createElement(
+	                                'span',
+	                                { className: 'sr-only' },
+	                                'Toggle navigation'
+	                            ),
+	                            _react2.default.createElement('span', { className: 'icon-bar' }),
+	                            _react2.default.createElement('span', { className: 'icon-bar' }),
+	                            _react2.default.createElement('span', { className: 'icon-bar' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'a',
+	                            { className: 'navbar-brand', href: '#' },
+	                            title
+	                        )
 	                    ),
 	                    _react2.default.createElement(
-	                      'ul',
-	                      { className: 'dropdown-menu' },
-	                      menuitem.items.map(function (subitem, sidx) {
-	                        if (subitem.type == 'separator') return _react2.default.createElement('li', { key: 'mi' + idx + '-' + sidx, role: 'separator', className: 'divider' });else if (subitem.type == 'header') return _react2.default.createElement(
-	                          'li',
-	                          { key: 'mi' + idx + '-' + sidx, className: 'dropdown-header' },
-	                          subitem.text
-	                        );else return _react2.default.createElement(
-	                          'li',
-	                          { key: 'mi' + idx + '-' + sidx },
-	                          _react2.default.createElement(
-	                            _reactRouter.Link,
-	                            { to: BASE_URL + subitem.url },
-	                            subitem.text
-	                          )
-	                        );
-	                      })
+	                        'div',
+	                        { id: 'navbar', className: 'navbar-collapse collapse' },
+	                        _react2.default.createElement(
+	                            'ul',
+	                            { className: 'nav navbar-nav' },
+	                            this.state.loggedIn ? items.map(function (menuitem, idx) {
+
+	                                if (menuitem.items) {
+	                                    return _react2.default.createElement(
+	                                        'li',
+	                                        { key: 'mi' + idx, className: 'dropdown' },
+	                                        _react2.default.createElement(
+	                                            'a',
+	                                            { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown', role: 'button', 'aria-haspopup': 'true', 'aria-expanded': 'false' },
+	                                            menuitem.text,
+	                                            ' ',
+	                                            _react2.default.createElement('span', { className: 'caret' })
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'ul',
+	                                            { className: 'dropdown-menu' },
+	                                            menuitem.items.map(function (subitem, sidx) {
+	                                                if (subitem.type == 'separator') return _react2.default.createElement('li', { key: 'mi' + idx + '-' + sidx, role: 'separator', className: 'divider' });else if (subitem.type == 'header') return _react2.default.createElement(
+	                                                    'li',
+	                                                    { key: 'mi' + idx + '-' + sidx, className: 'dropdown-header' },
+	                                                    subitem.text
+	                                                );else return _react2.default.createElement(
+	                                                    'li',
+	                                                    { key: 'mi' + idx + '-' + sidx },
+	                                                    _react2.default.createElement(
+	                                                        _reactRouter.Link,
+	                                                        { to: BASE_URL + subitem.url },
+	                                                        subitem.text
+	                                                    )
+	                                                );
+	                                            })
+	                                        )
+	                                    );
+	                                } else {
+	                                    return _react2.default.createElement(
+	                                        'li',
+	                                        { key: 'mi' + idx },
+	                                        _react2.default.createElement(
+	                                            _reactRouter.Link,
+	                                            { to: BASE_URL + menuitem.url },
+	                                            menuitem.text
+	                                        )
+	                                    );
+	                                }
+	                            }) : _react2.default.createElement(
+	                                'li',
+	                                { key: 'mi_home' },
+	                                _react2.default.createElement(
+	                                    _reactRouter.Link,
+	                                    { to: BASE_URL + '/' },
+	                                    _Ri18n2.default.home
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'li',
+	                                { key: 'rlogin_btn' },
+	                                _react2.default.createElement(
+	                                    'a',
+	                                    { href: '#', onClick: this.clickLogin },
+	                                    this.state.loginText
+	                                )
+	                            )
+	                        )
 	                    )
-	                  );
-	                } else {
-	                  return _react2.default.createElement(
-	                    'li',
-	                    { key: 'mi' + idx },
-	                    _react2.default.createElement(
-	                      _reactRouter.Link,
-	                      { to: BASE_URL + menuitem.url },
-	                      menuitem.text
-	                    )
-	                  );
-	                }
-	              })
+	                )
 	            )
-	          )
-	        )
-	      )
-	    );
-	  }
+	        );
+	    }
 	});
 
 	exports.default = RNavBar;
