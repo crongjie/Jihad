@@ -3,23 +3,6 @@ import React from 'react'
 import RStore from './RStore.js' 
 import Ri18n from '../Ri18n.js' 
 
-var QRCode = require('qrcode.react');
-
-let order_items = [];
-let item_id = 0;
-
-let OrderItem  = React.createClass({
-	render: function() {
-    	let item = this.props.item;
-		return (
-                        <tr>
-                            <td>{item.name}</td>
-                            <td>{item.price}</td>
-                            <td><QRCode value={ 'RJQRCode - ' + item.id } /></td>
-                        </tr>
-        );
-	}
-});
 
 let OrderForm = React.createClass({
     getInitialState: function () {
@@ -40,7 +23,6 @@ let OrderForm = React.createClass({
         toastr.success('Item added');
     },
 	render: function() {
-    	let list = this.props.item;
 		return (
             <div>
 
@@ -118,7 +100,7 @@ let OrderForm = React.createClass({
 
 
 let order = [
-    <OrderForm item = { RStore.getOrders() } />
+    <OrderForm />
 //<OrderForm item = { order_items } />
 ];
 

@@ -4,8 +4,6 @@ import RStore from './RStore.js'
 
 var QRCode = require('qrcode.react');
 
-let order_items = [];
-let item_id = 0;
 
 let OrderItem  = React.createClass({
 	render: function() {
@@ -31,7 +29,6 @@ let OrderForm = React.createClass({
         this.setState({ price: event.target.value });
     },
     handleAddClick: function (event) {
-        ++item_id;
         RStore.addOrder( { id: item_id, name: this.state.name, price: this.state.price });
         //order_items.push( { id: item_id, name: this.state.name, price: this.state.price })
         this.setState({ name: '', price: '' });

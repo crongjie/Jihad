@@ -6,10 +6,9 @@ import RGoogleInfo from '../RGoogleInfo.js'
 
 var QRCode = require('qrcode.react');
 
-
 let AccountForm = React.createClass({
     getInitialState: function () {
-        return { name: '', email:'', point: 0, desc: '', address: '', isEdit: false }
+        return { id: 123, name: '', email:'', point: 0, desc: '', address: '', isEdit: false }
     },
     handleChangeName: function (event) {
         this.setState({ name: event.target.value });
@@ -37,9 +36,12 @@ let AccountForm = React.createClass({
         this.setState(RStore.getUserInfo());
     },
 	render: function() {
-    	let list = this.props.item;
 		return (
             <div>
+                <div className="form-group">
+                    <label>{ Ri18n.account_name }:</label>
+                    <QRCode value={ 'RJiBuyUserInfo - ' + this.state.id } />
+                </div>
                 <div className="form-group">
                     <label>{ Ri18n.account_name }:</label>
                     <input type="text" value={this.state.name} onChange={this.handleChangeName} className="form-control"  />

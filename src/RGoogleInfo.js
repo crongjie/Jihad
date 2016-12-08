@@ -14,6 +14,7 @@ let RGoogleInfo = React.createClass({
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 // User is signed in.
+                /*
                 var displayName = user.displayName;
                 var email = user.email;
                 var emailVerified = user.emailVerified;
@@ -21,10 +22,7 @@ let RGoogleInfo = React.createClass({
                 var isAnonymous = user.isAnonymous;
                 var uid = user.uid;
                 var providerData = user.providerData;
-                // [START_EXCLUDE]
-                //document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
-                //document.getElementById('quickstart-sign-in').textContent = 'Sign out';
-                //document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+                */
                 //alert(JSON.stringify(user, null, '  '));
                 oThis.setState({ loggedIn:true, userInfo: user });
 
@@ -36,7 +34,6 @@ let RGoogleInfo = React.createClass({
 
     },
 	render: function() {
-    let item = this.props.item;
 		return ((this.state.loggedIn) ? 
         <div >
             <h4>User Info from your Google Account</h4>
