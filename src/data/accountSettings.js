@@ -2,6 +2,7 @@
 import React from 'react'
 import RStore from './RStore.js' 
 import Ri18n from '../Ri18n.js' 
+import RGoogleInfo from '../RGoogleInfo.js' 
 
 var QRCode = require('qrcode.react');
 
@@ -72,7 +73,7 @@ let AccountForm = React.createClass({
 
 
 let accountSettings = [
-    <AccountForm />
+    <AccountForm />, <RGoogleInfo / >
 ];
 
 export default accountSettings
