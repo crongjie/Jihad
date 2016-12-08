@@ -71,7 +71,7 @@
 
 	var _pages2 = _interopRequireDefault(_pages);
 
-	var _RPage = __webpack_require__(86);
+	var _RPage = __webpack_require__(87);
 
 	var _RPage2 = _interopRequireDefault(_RPage);
 
@@ -6264,10 +6264,14 @@
 
 	var _orderList2 = _interopRequireDefault(_orderList);
 
+	var _accountSettings = __webpack_require__(86);
+
+	var _accountSettings2 = _interopRequireDefault(_accountSettings);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var pages = {
-		home: _home2.default, payment: _payment2.default, addOrder: _addOrder2.default, orderList: _orderList2.default
+		home: _home2.default, payment: _payment2.default, addOrder: _addOrder2.default, orderList: _orderList2.default, accountSettings: _accountSettings2.default
 	};
 
 	exports.default = pages;
@@ -6377,14 +6381,10 @@
 	        this.setState({ price: event.target.value });
 	    },
 	    handleChangeOrderType: function handleChangeOrderType(event) {
-	        console.log(event.target.value);
-	        console.log(event);
 	        this.setState({ orderType: event.target.value });
 	    },
 	    handleAddClick: function handleAddClick(event) {
-	        ++item_id;
-	        _RStore2.default.addOrder({ id: item_id, name: this.state.name, price: this.state.price });
-	        //order_items.push( { id: item_id, name: this.state.name, price: this.state.price })
+	        _RStore2.default.addOrder({ name: this.state.name, price: this.state.price });
 	        this.setState({ orderType: '0', name: '', price: '' });
 	        toastr.success('Item added');
 	    },
@@ -6399,7 +6399,7 @@
 	                _react2.default.createElement(
 	                    'label',
 	                    { className: 'control-label' },
-	                    'Color'
+	                    _Ri18n2.default.order_type
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -6582,7 +6582,7 @@
 /* 73 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -6590,13 +6590,29 @@
 
 	var order_items = [];
 	var item_id = 0;
+	var user_info = {
+	    id: 0,
+	    name: 'Ben杯拾祺牛TaRoy',
+	    email: 'jibuy@jiMail.com',
+	    address: '竇',
+	    desc: 'Life is like a LGTM!',
+	    point: 1000
+	};
 
 	var RStore = {
 	    getOrders: function getOrders() {
 	        return order_items;
 	    },
 	    addOrder: function addOrder(item) {
+	        ++item_id;
+	        item.id = item_id;
 	        order_items.push(item);
+	    },
+	    getUserInfo: function getUserInfo() {
+	        return user_info;
+	    },
+	    setUserInfo: function setUserInfo(uinfo) {
+	        user_info = uinfo;
 	    }
 	};
 
@@ -6622,8 +6638,9 @@
 	    history: '購入履歷',
 	    about: '關於',
 	    qr_confirm: 'QR Code確認收貨',
+	    order_type: '訂單種類',
 	    order_type_normal: '一般購入',
-	    order_type_find: '物品尋找',
+	    order_type_find: '物品尋找(例如CM薄本子,比較難入手的物品)',
 	    price: '價錢',
 	    actual_price: '實際價錢',
 	    highest_price: '最高可接受的價錢',
@@ -6641,9 +6658,15 @@
 	    edit: '編輯',
 	    delete: '刪除',
 	    cancel: '取消',
+	    account_name: '名字',
+	    email: 'Email',
+	    account_address: '收貨地址',
+	    account_desc: '簡介 / 備註',
 	    back: '返回',
 	    login: '登入',
-	    logout: '登出'
+	    logout: '登出',
+	    point: '課金點數',
+	    RJpoint: 'RJ Point'
 	};
 
 	exports.default = Ri18n;
@@ -7995,7 +8018,150 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _mainmenu = __webpack_require__(87);
+	var _RStore = __webpack_require__(73);
+
+	var _RStore2 = _interopRequireDefault(_RStore);
+
+	var _Ri18n = __webpack_require__(74);
+
+	var _Ri18n2 = _interopRequireDefault(_Ri18n);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var QRCode = __webpack_require__(75);
+
+	var AccountForm = _react2.default.createClass({
+	    displayName: 'AccountForm',
+
+	    getInitialState: function getInitialState() {
+	        return { name: '', email: '', point: 0, desc: '', address: '', isEdit: false };
+	    },
+	    handleChangeName: function handleChangeName(event) {
+	        this.setState({ name: event.target.value });
+	    },
+	    handleChangeEmail: function handleChangeEmail(event) {
+	        this.setState({ email: event.target.value });
+	    },
+	    handleChangeDesc: function handleChangeDesc(event) {
+	        this.setState({ desc: event.target.value });
+	    },
+	    handleChangeAddress: function handleChangeAddress(event) {
+	        this.setState({ address: event.target.value });
+	    },
+	    handleEditClick: function handleEditClick(event) {
+	        var user_info = _RStore2.default.getUserInfo();
+	        user_info.name = this.state.name;
+	        user_info.address = this.state.address;
+	        user_info.email = this.state.email;
+	        user_info.desc = this.state.desc;
+
+	        _RStore2.default.setUserInfo(user_info);
+	        toastr.success('User Info Updated');
+	    },
+	    componentDidMount: function componentDidMount(user_info) {
+	        this.setState(_RStore2.default.getUserInfo());
+	    },
+	    render: function render() {
+	        var list = this.props.item;
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    _Ri18n2.default.account_name,
+	                    ':'
+	                ),
+	                _react2.default.createElement('input', { type: 'text', value: this.state.name, onChange: this.handleChangeName, className: 'form-control' })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    _Ri18n2.default.email,
+	                    ':'
+	                ),
+	                _react2.default.createElement('input', { type: 'text', value: this.state.email, onChange: this.handleChangeEmail, className: 'form-control' })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    _Ri18n2.default.account_address,
+	                    ':'
+	                ),
+	                _react2.default.createElement('input', { type: 'text', value: this.state.address, onChange: this.handleChangeAddress, className: 'form-control' })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    _Ri18n2.default.description,
+	                    ':'
+	                ),
+	                _react2.default.createElement('textarea', { className: 'form-control', value: this.state.desc, onChange: this.handleChangeDesc, rows: '5', id: 'item_description' })
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'form-group' },
+	                _react2.default.createElement(
+	                    'label',
+	                    null,
+	                    _Ri18n2.default.point,
+	                    ':'
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'inputGroupContainer' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'input-group' },
+	                        _react2.default.createElement('input', { type: 'text', readOnly: true, value: this.state.point, className: 'form-control', name: 'point' }),
+	                        _react2.default.createElement(
+	                            'span',
+	                            { className: 'input-group-addon' },
+	                            _Ri18n2.default.RJpoint
+	                        )
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'button',
+	                { onClick: this.handleEditClick, className: 'btn btn-default' },
+	                _Ri18n2.default.edit
+	            )
+	        );
+	    }
+	});
+
+	var accountSettings = [_react2.default.createElement(AccountForm, null)];
+
+	exports.default = accountSettings;
+
+/***/ },
+/* 87 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _mainmenu = __webpack_require__(88);
 
 	var _mainmenu2 = _interopRequireDefault(_mainmenu);
 
@@ -8003,19 +8169,19 @@
 
 	var _pages2 = _interopRequireDefault(_pages);
 
-	var _RDesc = __webpack_require__(88);
+	var _RDesc = __webpack_require__(89);
 
 	var _RDesc2 = _interopRequireDefault(_RDesc);
 
-	var _RExample = __webpack_require__(89);
+	var _RExample = __webpack_require__(90);
 
 	var _RExample2 = _interopRequireDefault(_RExample);
 
-	var _RMemo = __webpack_require__(90);
+	var _RMemo = __webpack_require__(91);
 
 	var _RMemo2 = _interopRequireDefault(_RMemo);
 
-	var _RNavBar = __webpack_require__(91);
+	var _RNavBar = __webpack_require__(92);
 
 	var _RNavBar2 = _interopRequireDefault(_RNavBar);
 
@@ -8053,7 +8219,7 @@
 	exports.default = RPage;
 
 /***/ },
-/* 87 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8070,7 +8236,7 @@
 
 	var mainmenu = {
 	    title: 'JiBuy!',
-	    items: [{ text: _Ri18n2.default.home, url: '/' }, { text: _Ri18n2.default.account_setting, url: '/' }, { text: _Ri18n2.default.rongjie_buy, url: '/', items: [{ text: _Ri18n2.default.add_order, url: '/addOrder' }, { text: _Ri18n2.default.check_order, url: '/orderList' }, { text: _Ri18n2.default.history, url: '/' }]
+	    items: [{ text: _Ri18n2.default.home, url: '/' }, { text: _Ri18n2.default.account_setting, url: '/accountSettings' }, { text: _Ri18n2.default.rongjie_buy, url: '/', items: [{ text: _Ri18n2.default.add_order, url: '/addOrder' }, { text: _Ri18n2.default.check_order, url: '/orderList' }, { text: _Ri18n2.default.history, url: '/' }]
 	    }, { text: _Ri18n2.default.benji_buy, url: '/', items: [{ text: _Ri18n2.default.add_order, url: '/addOrder' }, { text: _Ri18n2.default.check_order, url: '/orderList' }, { text: _Ri18n2.default.history, url: '/' }]
 	    }, { text: _Ri18n2.default.charge, url: '/payment' }, { text: _Ri18n2.default.qr_confirm, url: '/' }, { text: _Ri18n2.default.about, url: '/' }, { text: _Ri18n2.default.login, url: '/' }]
 	};
@@ -8078,7 +8244,7 @@
 	exports.default = mainmenu;
 
 /***/ },
-/* 88 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8146,7 +8312,7 @@
 	exports.default = RDesc;
 
 /***/ },
-/* 89 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8183,7 +8349,7 @@
 	exports.default = RExample;
 
 /***/ },
-/* 90 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8226,7 +8392,7 @@
 	exports.default = RMemo;
 
 /***/ },
-/* 91 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

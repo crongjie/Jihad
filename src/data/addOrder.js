@@ -32,14 +32,10 @@ let OrderForm = React.createClass({
         this.setState({ price: event.target.value });
     },
     handleChangeOrderType: function (event) {
-        console.log(event.target.value);
-        console.log(event);
         this.setState({ orderType: event.target.value });
     },
     handleAddClick: function (event) {
-        ++item_id;
-        RStore.addOrder( { id: item_id, name: this.state.name, price: this.state.price });
-        //order_items.push( { id: item_id, name: this.state.name, price: this.state.price })
+        RStore.addOrder( { name: this.state.name, price: this.state.price });
         this.setState({ orderType: '0', name: '', price: '' });
         toastr.success('Item added');
     },
@@ -49,7 +45,7 @@ let OrderForm = React.createClass({
             <div>
 
                 <div className="form-group">
-                    <label className="control-label">Color</label>
+                    <label className="control-label">{ Ri18n.order_type }</label>
                     <div className="selectContainer">
                         <select className="form-control" name="color" value={this.state.orderType} onChange={ this.handleChangeOrderType }>
                             <option value="0">{ Ri18n.order_type_normal }</option>

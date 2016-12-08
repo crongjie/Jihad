@@ -4,7 +4,7 @@ const mainmenu = {
     title: 'JiBuy!',
     items: [
         { text: Ri18n.home, url: '/' },
-        { text: Ri18n.account_setting, url: '/' },
+        { text: Ri18n.account_setting, url: '/accountSettings' },
         { text: Ri18n.rongjie_buy, url: '/', items:[
                 { text: Ri18n.add_order, url: '/addOrder' },
                 { text: Ri18n.check_order, url: '/orderList' },

@@ -9,8 +9,9 @@ let Ri18n = {
     history: '購入履歷',
     about: '關於',
     qr_confirm: 'QR Code確認收貨',
+    order_type: '訂單種類',
     order_type_normal: '一般購入',
-    order_type_find: '物品尋找',
+    order_type_find: '物品尋找(例如CM薄本子,比較難入手的物品)',
     price: '價錢',
     actual_price: '實際價錢',
     highest_price: '最高可接受的價錢',
@@ -28,9 +29,15 @@ let Ri18n = {
     edit: '編輯',
     delete: '刪除',
     cancel: '取消',
+    account_name: '名字',
+    email: 'Email',
+    account_address: '收貨地址',
+    account_desc: '簡介 / 備註',
     back: '返回',
     login: '登入',
-    logout: '登出'
+    logout: '登出',
+    point: '課金點數',
+    RJpoint: 'RJ Point'
 };
   	
 export default Ri18n
