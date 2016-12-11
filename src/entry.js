@@ -25,7 +25,7 @@ if (_.endsWith(BASE_URL,'/')) BASE_URL = BASE_URL.substring(0, BASE_URL.length -
 		*/
 let RNotfound = React.createClass({
 	render: function() {
-        return (<h2>{BASE_URL} route not found!</h2>);
+        return (<h2>找不到{BASE_URL} / 未實裝!</h2>);
 	}
 });
   	

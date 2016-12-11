@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-	"build": "webpack --optimize-minimize",
-	"start": "webpack-dev-server"
+    "build": "webpack --optimize-minimize",
+    "start": "webpack-dev-server"
   },
   "author": "RJ",
   "license": "ISC",
@@ -18,11 +18,12 @@
     "webpack-dev-server": "^1.16.1"
   },
   "dependencies": {
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
     "jquery": "^3.1.1",
     "lodash": "^4.16.1",
     "normalizr": "^2.2.1",
+    "qrcode.react": "^0.6.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.6",

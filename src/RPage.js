@@ -9,6 +9,7 @@ import RExample from './RExample.js'
 import RMemo from './RMemo.js' 
 import RStore from './data/RStore.js'
 import RNavBar from './RNavBar.js' 
+import Ri18n from './Ri18n.js' 
 
 let RPage = React.createClass({
 	render: function() {
@@ -32,7 +33,10 @@ let RPage = React.createClass({
                             else return <RExample key = { 'pi' + idx } item={item} />;
                         })
                     }
-                </div> : 'Page Not found'
+                </div> : <div className="container"><RDesc item={ {
+                    title: Ri18n.error, 
+                    text: Ri18n.page_not_found 
+                } } /></div>
         }
         </div>
         );

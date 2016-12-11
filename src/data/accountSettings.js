@@ -8,7 +8,7 @@ var QRCode = require('qrcode.react');
 
 let AccountForm = React.createClass({
     getInitialState: function () {
-        return { id: 123, name: '', email:'', point: 0, desc: '', address: '', isEdit: false }
+        return { id: 0, name: '', email:'', point: 0, point_available: 0, desc: '', address: '', isEdit: false }
     },
     handleChangeName: function (event) {
         this.setState({ name: event.target.value });
@@ -23,23 +23,34 @@ let AccountForm = React.createClass({
         this.setState({ address: event.target.value });
     },
     handleEditClick: function (event) {
-        let user_info = RStore.getUserInfo();
-        user_info.name = this.state.name;
-        user_info.address = this.state.address;
-        user_info.email = this.state.email;
-        user_info.desc = this.state.desc;
+        if (this.state.name != '' && this.state.email != '' ) {
+            let user_info = {
+                point: this.state.point,
+                point_available: this.state.point_available
+            };
+            user_info.name = this.state.name;
+            user_info.address = this.state.address;
+            user_info.email = this.state.email;
+            user_info.desc = this.state.desc;
 
-        RStore.setUserInfo(user_info);
-        toastr.success('User Info Updated');
+            RStore.setUserInfo(user_info);
+            toastr.success('User Info Updated'); 
+        }else{
+            toastr.error('User Name Or Email is Empty!'); 
+        }
+
     },
     componentDidMount: function(user_info) {
-        this.setState(RStore.getUserInfo());
+        let oThis = this;
+        Promise.all([RStore.getUserInfo()]).then(function(userData) {
+
+             oThis.setState(userData[0]);
+        });
     },
 	render: function() {
 		return (
             <div>
                 <div className="form-group">
-                    <label>{ Ri18n.account_name }:</label>
                     <QRCode value={ 'RJiBuyUserInfo - ' + this.state.id } />
                 </div>
                 <div className="form-group">
@@ -63,6 +74,15 @@ let AccountForm = React.createClass({
                     <div className="inputGroupContainer">
                         <div className="input-group">
                             <input type="text" readOnly value={this.state.point} className="form-control" name="point" />
+                            <span className="input-group-addon">{ Ri18n.RJpoint }</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="form-group">
+                    <label>{ Ri18n.point_available }:</label>
+                    <div className="inputGroupContainer">
+                        <div className="input-group">
+                            <input type="text" readOnly value={this.state.point_available} className="form-control" name="point" />
                             <span className="input-group-addon">{ Ri18n.RJpoint }</span>
                         </div>
                     </div>

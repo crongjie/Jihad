@@ -12,7 +12,7 @@ let RDesc = React.createClass({
           <div className="rj-textblock rj-textblock-red"> 
             <h4>{ item.title }</h4><br />
             { 
-              item.text.split('\r\n').map(function(line, idx){
+              item.text.split('\n').map(function(line, idx){
                 return <p key = { 'rdl'+idx }>{line}</p>;
               })
             }

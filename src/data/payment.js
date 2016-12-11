@@ -1,9 +1,11 @@
+import Ri18n from '../Ri18n.js' 
+
 
 let payment = [
 { 
 	type: 'desc', 
-	title: 'Payments', 
-	text: "Shut up and take my Money!" 
+	title: Ri18n.charge, 
+	text: Ri18n.charge_info 
 }
 ];
 
