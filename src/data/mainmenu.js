@@ -20,7 +20,7 @@ const mainmenu = {
             ]  
         },*/
         { text: Ri18n.charge, url: '/payment' },
-        { text: Ri18n.qr_confirm, url: '/NI' },
+        //{ text: Ri18n.qr_confirm, url: '/NI' },
         { text: Ri18n.about, url: '/about' }
     ]
 };

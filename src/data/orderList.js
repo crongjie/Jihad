@@ -41,6 +41,7 @@ let delete_order = function(id){
         if (listComponent && listComponent.reload) listComponent.reload();
     });
 }
+/*
 
 let OrderItem  = React.createClass({
 	render: function() {
@@ -108,6 +109,83 @@ let OrderList = React.createClass({
                                     <th>{Ri18n.price}</th>
                                     <th>{Ri18n.order_date}</th>
                                     <th>{Ri18n.order_status}</th>
+                                    <th>{Ri18n.order_detail}</th>
+                                    <th>{Ri18n.order_delete}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {
+                                    list.map(function(item, idx){
+                                        return <OrderItem key = { 'pi' + idx } item={item} />;
+                                    })
+                                }
+                                </tbody>
+                            </table>
+                    </div>
+        );
+	}
+});
+*/
+let OrderItem  = React.createClass({
+	render: function() {
+    	let item = this.props.item;
+		return (
+                        <tr>
+                            <td>{item.name}</td>
+                            <td>{getStatus(item.status)}</td>
+                            <td><button onClick={ open_order_form.bind(this,item.id) } className="btn btn-primary btn-sm">{Ri18n.order_view}</button></td>
+                            <td><button onClick={ delete_order.bind(this,item.id) } className="btn btn-primary btn-sm">{Ri18n.order_delete}</button></td>
+                        </tr>
+        );
+	}
+});
+
+let OrderList = React.createClass({
+    showForm: function(itemId) {
+        panelComponent.showForm(this.state.items[itemId]);
+    },
+    getInitialState: function () {
+        return { items: {} }
+    },
+    reload: function() {
+        let oThis = this;
+        Promise.all([RStore.getOrders()]).then(function(orderData) {
+             oThis.setState({ items: orderData[0] });
+        });
+    },
+    componentDidMount: function() {
+        let oThis = this;
+        this.reload();
+        listComponent = oThis;
+    },
+    handleChangeName: function (event) {
+        this.setState({ name: event.target.value });
+    },
+    handleChangePrice: function (event) {
+        this.setState({ price: event.target.value });
+    },
+    handleAddClick: function (event) {
+        RStore.addOrder( { id: item_id, name: this.state.name, price: this.state.price });
+        //order_items.push( { id: item_id, name: this.state.name, price: this.state.price })
+        this.setState({ name: '', price: '' });
+    },
+	render: function() {
+
+            let obj = this.state.items;
+            let list = [];
+                        
+            Object.keys(obj).forEach(function(key) {
+                list.push(obj[key]);
+            });
+            return (
+                    <div>
+                            <h2>{Ri18n.check_order}</h2>
+                            <p>{Ri18n.order_list_detail}:</p>            
+                            <table className="table">
+                                <thead>
+                                <tr>
+                                    <th>{Ri18n.item_name}</th>
+                                    <th>{Ri18n.status}</th>
                                     <th>{Ri18n.order_detail}</th>
                                     <th>{Ri18n.order_delete}</th>
                                 </tr>

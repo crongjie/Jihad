@@ -47,6 +47,7 @@ let Ri18n = {
 
     order_list_detail: '訂單內容如下',
     order_date: '落訂日期',
+    status: '狀態',
     order_status: '訂單狀態',
     order_delete: '刪除',
     order_detail: '詳細內容',
