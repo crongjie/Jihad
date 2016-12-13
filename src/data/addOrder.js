@@ -102,6 +102,11 @@ let OrderForm = React.createClass({
 
     },
 	render: function() {
+        const readOnlyOpt = {};
+        if(this.state.name != '') {
+            readOnlyOpt['readOnly'] = 'readOnly';
+        }
+
 		return (
             <div>
                 <div className="form-group">
@@ -143,15 +148,15 @@ let OrderForm = React.createClass({
                 ) }
                 <div className="form-group">
                     <label>{ Ri18n.url }:</label>
-                    <input type="text" className="form-control" value={this.state.url} onChange={ this.handleChange_url } />
+                    <input type="text" className="form-control" value={this.state.url} onChange={ this.handleChange_url } {...readOnlyOpt} />
                 </div>
                 <div className="form-group">
                     <label>{ Ri18n.image_url }:</label>
-                    <input type="text" className="form-control" value={this.state.image_url} onChange={ this.handleChange_image_url } />
+                    <input type="text" className="form-control" value={this.state.image_url} onChange={ this.handleChange_image_url } {...readOnlyOpt}  />
                 </div>
                 <div className="form-group">
                     <label>{ Ri18n.description }:</label>
-                    <textarea className="form-control" rows="5" value={this.state.description} onChange={ this.handleChange_description }></textarea>
+                    <textarea className="form-control" rows="5" value={this.state.description} onChange={ this.handleChange_description } {...readOnlyOpt} ></textarea>
                 </div>
                 { (this.state.orderType == '1' || this.state.orderType == '2') ? (
                     <div>
