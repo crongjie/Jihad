@@ -66,12 +66,12 @@ function mapStateToProps(state) {
     console.log('Redux state - RGoogleInfo');
     console.log(state);
   return {
-    loginDisabled: state.loginDisabled,
-    loggedIn: state.loggedIn,
-    uid: state.uid,
-    displayName: state.displayName,
-    email: state.email,
-    photoURL: state.photoURL
+    loginDisabled: state.RGoogleInfo.loginDisabled,
+    loggedIn: state.RGoogleInfo.loggedIn,
+    uid: state.RGoogleInfo.uid,
+    displayName: state.RGoogleInfo.displayName,
+    email: state.RGoogleInfo.email,
+    photoURL: state.RGoogleInfo.photoURL
   };
 }
 function mapDispatchToProps(dispatch) {

@@ -13,14 +13,7 @@ import RPage from './RPage.js'
   	
 import reducers from './reducers'
 
-// Add the reducer to your store on the `routing` key
-const store = createStore(
-  combineReducers({
-    reducers,
-    routing: routerReducer
-  })
-);
-
+const store = createStore(reducers);
 
 (function () {
 	console.log('reducers');
