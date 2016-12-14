@@ -2,7 +2,7 @@
 import React from 'react'
 import RStore from './RStore.js' 
 import Ri18n from '../Ri18n.js' 
-import RGoogleInfo from '../RGoogleInfo.js' 
+import RGoogleInfo from '../components/RGoogleInfo.js' 
 
 var QRCode = require('qrcode.react');
 

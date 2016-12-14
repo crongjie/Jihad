@@ -1,5 +1,5 @@
 
-import RGoogleInfo from '../RGoogleInfo.js' 
+import RGoogleInfo from '../components/RGoogleInfo.js' 
 import Ri18n from '../Ri18n.js' 
 import RStore from './RStore.js' 
 
