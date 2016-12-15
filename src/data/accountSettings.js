@@ -1,12 +1,14 @@
 
 import React from 'react'
-import RStore from './RStore.js' 
-import Ri18n from '../Ri18n.js' 
-import RGoogleInfo from '../components/RGoogleInfo.js' 
+import RStore from './RStore.js'
+import Ri18n from '../Ri18n.js'
+import RGoogleInfo from '../components/RGoogleInfo.js'
+import RAccountForm from '../components/RAccountForm.js'
 
 var QRCode = require('qrcode.react');
-
+/*
 let AccountForm = React.createClass({
+
     getInitialState: function () {
         return { id: 0, name: '', email:'', point: 0, point_available: 0, desc: '', address: '', isEdit: false }
     },
@@ -93,9 +95,10 @@ let AccountForm = React.createClass({
 	}
 });
 
+ */
 
 let accountSettings = [
-    <AccountForm />, <RGoogleInfo / >
+    <RAccountForm />, <RGoogleInfo />
 ];
 
 export default accountSettings

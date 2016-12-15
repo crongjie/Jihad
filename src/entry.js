@@ -49,9 +49,9 @@ let RNotfound = React.createClass({
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={ history }>
-			<Route path={ BASE_URL +  "/" } component={ RPage }  / >
-			<Route path={ BASE_URL +  "/:page" } component={ RPage }  / >
-			<Route path="*" component={ RNotfound }  / >
+			<Route path={ BASE_URL +  "/" } component={ RPage } />
+			<Route path={ BASE_URL +  "/:page" } component={ RPage } />
+			<Route path="*" component={ RNotfound } />
 		</Router>
 	</Provider>
 , document.getElementById("main"));
