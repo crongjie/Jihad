@@ -63,8 +63,8 @@ RGoogleInfo.propTypes = {
 
 // Connect to Redux
 function mapStateToProps(state) {
-    console.log('Redux state - RGoogleInfo');
-    console.log(state);
+   //console.log('Redux state - RGoogleInfo');
+    //console.log(state);
   return {
     loginDisabled: state.RGoogleInfo.loginDisabled,
     loggedIn: state.RGoogleInfo.loggedIn,
@@ -77,8 +77,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setLoggedIn(dispObj) {
-        console.log('setLoggedIn');
-        console.log(dispObj);
+       // console.log('setLoggedIn');
+       // console.log(dispObj);
         dispatch(setLoggedIn(dispObj.loggedIn));
         dispatch(setUserInfo(dispObj.userInfo));
     },

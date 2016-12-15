@@ -14,12 +14,12 @@ import RPage from './RPage.js'
 import reducers from './reducers'
 
 const store = createStore(reducers);
-
+/*
 (function () {
 	console.log('reducers');
   	console.log(reducers);
   	console.log(store);
-})();
+})();*/
 
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store)
