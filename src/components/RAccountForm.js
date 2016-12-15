@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 
-import { Field, reduxForm, submit } from 'redux-form'
+import { Field, reduxForm, submit, change } from 'redux-form'
 import { connect } from 'react-redux'
 
 import RStore from '../data/RStore.js'
 import Ri18n from '../Ri18n.js'
 import QRCode from 'qrcode.react';
+
 
 class RAccountForm extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class RAccountForm extends Component {
         let oThis = this;
         Promise.all([RStore.getUserInfo()]).then(function(userData) {
             //oThis.setState(userData[0]);
-
+            oThis.props.setUserInfo(userData[0]);
         });
     }
 
@@ -73,12 +74,19 @@ class RAccountForm extends Component {
 //Convert to Redux-Form
 RAccountForm = reduxForm({
     form: 'RAccountForm',  // a unique identifier for this form
-    //fields: ['uid','name', 'email', 'address', 'desc', 'point', 'point_available']
     onSubmit: function(value){
-        console.log('onSubmit');
-        console.log(value);
-    },       // submit function must be passed to onSubmit
-    initialValues: { uid: 0, name: '', email:'', point: 0, point_available: 0, desc: '', address: '' }
+        //console.log('onSubmit');
+        //console.log(value);
+
+        if (value.name != '' && value.email != '' ) {
+            RStore.setUserInfo(value);
+            toastr.success('User Info Updated'); 
+        }else{
+            toastr.error('User Name Or Email is Empty!'); 
+        }
+
+    } // submit function must be passed to onSubmit
+    //initialValues: { uid: 0, name: '', email:'', point: 0, point_available: 0, desc: '', address: '' }
 })(RAccountForm)
 
 // Connect to Redux
@@ -86,19 +94,28 @@ function mapStateToProps(state) {
   return {
     uid: state.RGoogleInfo.uid,
     initialValues: {
-        name: state.RGoogleInfo.uid,
-        email: state.RGoogleInfo.uid
+        uid: state.RGoogleInfo.uid,
+        name: '',
+        email: '',
+        point: 0,
+        point_available: 0,
+        desc: '',
+        address: ''
     }
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setLoggedIn(dispObj) {
-       // console.log('setLoggedIn');
-       // console.log(dispObj);
-        dispatch(setLoggedIn(dispObj.loggedIn));
-        dispatch(setUserInfo(dispObj.userInfo));
+    setUserInfo(userInfo) {
+        dispatch(change('RAccountForm', 'uid', userInfo.uid));
+        dispatch(change('RAccountForm', 'name', userInfo.name));
+        dispatch(change('RAccountForm', 'email', userInfo.email));
+        dispatch(change('RAccountForm', 'desc', userInfo.desc));
+        dispatch(change('RAccountForm', 'address', userInfo.address));
+        dispatch(change('RAccountForm', 'point', userInfo.point));
+        dispatch(change('RAccountForm', 'point_available', userInfo.point_available));
+
     },   
      handleEditClick() {
         console.log('RAccountForm - submit(RAccountForm)');

@@ -78,7 +78,7 @@ let RStoreFireBase = {
                 if (snapshot.val() && snapshot.val().email)  return snapshot.val();
                 else{
                     return {
-                        id: userId,
+                        uid: userId,
                         name: googleUserInfo.displayName,
                         email: googleUserInfo.email,
                         address: '',
@@ -90,7 +90,7 @@ let RStoreFireBase = {
             });
         }else{
             return {
-                        id: '',
+                        uid: '',
                         name: '',
                         email: '',
                         address: '',
