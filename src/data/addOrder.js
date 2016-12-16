@@ -1,7 +1,8 @@
 
 import React from 'react'
 import RStore from './RStore.js' 
-import Ri18n from '../Ri18n.js' 
+import Ri18n from '../Ri18n.js'
+import ROrderForm from '../components/ROrderForm.js'
 
 let empty_item = {
     orderType: '0', 
@@ -201,13 +202,13 @@ let OrderForm = React.createClass({
                 ) }
                 <button onClick={ this.handleAddClick } className="btn btn-default">Add</button>
             </div>
-);
+)
 	}
 });
 
 
 let order = [
-    <OrderForm />
+    <ROrderForm />
 //<OrderForm item = { order_items } />
 ];
 
