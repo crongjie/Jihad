@@ -23,8 +23,8 @@ class RAccountForm extends Component {
     }
 
     render() {
-        console.log('RAccountForm - render');
-        console.log(this);
+        //console.log('RAccountForm - render');
+        //console.log(this);
         return (
             <div>
                 <div className="form-group">
@@ -118,10 +118,10 @@ function mapDispatchToProps(dispatch) {
 
     },   
      handleEditClick() {
-        console.log('RAccountForm - submit(RAccountForm)');
-        console.log(submit('RAccountForm'));
-        console.log('RAccountForm - submit');
-        console.log(submit);
+        //console.log('RAccountForm - submit(RAccountForm)');
+        //console.log(submit('RAccountForm'));
+        //console.log('RAccountForm - submit');
+        //console.log(submit);
         dispatch(submit('RAccountForm'));
     }
 

@@ -4,7 +4,7 @@ RGoogleInfo - RGoogleInfo Component
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { setLoggedIn, setUserInfo, setDisable, INITIAL_STATE } from '../actions/RGoogleInfo'
-
+import Ri18n from '../Ri18n.js'
 
 
 class RGoogleInfo extends Component {
@@ -51,7 +51,7 @@ class RGoogleInfo extends Component {
             </div>
         </div> 
         : 
-        <h4>You have not logged in yet!</h4> );
+        <h4>{ Ri18n.not_login }</h4> );
 	}
 }
   	

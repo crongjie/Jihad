@@ -2,6 +2,10 @@
 import React from 'react'
 import RStore from './RStore.js' 
 import Ri18n from '../Ri18n.js' 
+import ROrderForm from '../components/ROrderForm.js'
+
+import { Field, reduxForm, submit, change, formValueSelector, reset } from 'redux-form'
+import { connect } from 'react-redux'
 
 var QRCode = require('qrcode.react');
 
@@ -41,6 +45,124 @@ let delete_order = function(id){
         if (listComponent && listComponent.reload) listComponent.reload();
     });
 }
+
+
+let empty_item = {
+    orderType: '0', 
+    status: '0',
+    ordered_at: '',
+    name: '', 
+    price: '',
+    quantity: '',
+    description:'',
+    actual_price: '',
+    highest_price: '',
+    extra_price: '',
+    url: '',
+    image_url: '',
+    cm_date: '',
+    cm_place: '',
+    cm_circle: '',
+    cm_priority: '',
+    shippment_person: '',
+    shippment_address: ''
+}
+
+let init_item = empty_item;
+
+let btn_enable = true;
+let view_form_dispatch = null;
+
+//Convert to Redux-Form
+let ViewOrderForm = reduxForm({
+    form: 'ViewOrderForm',  // a unique identifier for this form
+    onSubmit: function(value){
+        if (btn_enable) {
+            btn_enable = false;
+            /*
+            if (value.name && value.name != '') {
+                    let item = {
+                        orderType: value.orderType, 
+                        name: value.name, 
+                        price: value.price, 
+                        description:value.description, 
+                        highest_price: value.highest_price, 
+                        extra_price: value.extra_price, 
+                        quantity: value.quantity,
+                        url: value.url, 
+                        image_url: value.image_url, 
+                        cm_date: value.cm_date, 
+                        cm_place: value.cm_place, 
+                        cm_circle: value.cm_circle, 
+                        cm_priority: value.cm_priority,
+                        shippment_person: value.shippment_person,
+                        shippment_address: value.shippment_address
+                    };
+                    RStore.addOrder(item);
+                    if (view_form_dispatch) view_form_dispatch(reset('ViewOrderForm'));
+                    toastr.success('已成功修改訂單');
+            }else{
+                toastr.error('請輸入訂單的物品名稱!');
+            }
+            */
+            btn_enable = true;
+        }
+        //console.log('onSubmit');
+        //console.log(value);
+
+    }
+})(ROrderForm)
+
+// Connect to Redux
+function mapStateToProps(state) {
+    const selector = formValueSelector('ViewOrderForm');
+    return {
+        orderType: selector(state, 'orderType'),
+        initialValues: init_item
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    view_form_dispatch = dispatch;
+    return {
+        /*
+        setUserInfo(userInfo) {
+            dispatch(change('ROrderForm', 'uid', userInfo.uid));
+            dispatch(change('ROrderForm', 'name', userInfo.name));
+            dispatch(change('ROrderForm', 'email', userInfo.email));
+            dispatch(change('ROrderForm', 'desc', userInfo.desc));
+            dispatch(change('ROrderForm', 'address', userInfo.address));
+            dispatch(change('ROrderForm', 'point', userInfo.point));
+            dispatch(change('ROrderForm', 'point_available', userInfo.point_available));
+
+        },*/
+        handleBackClick() {
+            if (panelComponent) panelComponent.showList();
+        },
+        handleEditClick() {
+            //console.log('ROrderForm - submit(ROrderForm)');
+            //console.log(submit('ROrderForm'));
+            //console.log('ROrderForm - submit');
+            //console.log(submit);
+            //dispatch(submit('ViewOrderForm'));
+        },
+        handleDeleteClick() {
+
+        },
+        handleAddClick() {
+            //dispatch(submit('ViewOrderForm'));
+        }
+
+    };
+}
+
+ViewOrderForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ViewOrderForm);
+
+
+
 /*
 
 let OrderItem  = React.createClass({
@@ -133,8 +255,8 @@ let OrderItem  = React.createClass({
                         <tr>
                             <td>{item.name}</td>
                             <td>{getStatus(item.status)}</td>
-                            <td><button onClick={ open_order_form.bind(this,item.id) } className="btn btn-primary btn-sm">{Ri18n.order_view}</button></td>
-                            <td><button onClick={ delete_order.bind(this,item.id) } className="btn btn-primary btn-sm">{Ri18n.order_delete}</button></td>
+                            <td><a href="#" onClick={ open_order_form.bind(this,item.id) } >{Ri18n.order_view}</a></td>
+                            <td><a href="#" onClick={ delete_order.bind(this,item.id) } >{Ri18n.order_delete}</a></td>
                         </tr>
         );
 	}
@@ -203,30 +325,35 @@ let OrderList = React.createClass({
 	}
 });
 
-let empty_item = {
-    orderType: '0', 
-    name: '', 
-    price: '',
-    description:'',
-    actual_price: '',
-    highest_price: '',
-    extra_price: '',
-    url: '',
-    image_url: '',
-    cm_date: '',
-    cm_place: '',
-    cm_circle: '',
-    cm_priority: ''
-};
-
-
-
 let OrderPanel = React.createClass({
     getInitialState: function () {
         return { type: 0, item: empty_item }
     },
     showForm: function(item) {
+        init_item = item;
         this.setState({type: 1, item: item});
+        if (view_form_dispatch && item) {
+                view_form_dispatch(change('ViewOrderForm', 'status', item.status));
+                view_form_dispatch(change('ViewOrderForm', 'ordered_at', item.ordered_at));
+
+                view_form_dispatch(change('ViewOrderForm', 'orderType', item.orderType));
+                view_form_dispatch(change('ViewOrderForm', 'name', item.name));
+                view_form_dispatch(change('ViewOrderForm', 'price', item.price));
+                view_form_dispatch(change('ViewOrderForm', 'description', item.description));
+                view_form_dispatch(change('ViewOrderForm', 'highest_price', item.highest_price));
+                view_form_dispatch(change('ViewOrderForm', 'extra_price', item.extra_price));
+                view_form_dispatch(change('ViewOrderForm', 'url', item.url));
+                view_form_dispatch(change('ViewOrderForm', 'image_url', item.image_url));
+                view_form_dispatch(change('ViewOrderForm', 'cm_date', item.cm_date));
+                view_form_dispatch(change('ViewOrderForm', 'cm_place', item.cm_place));
+                view_form_dispatch(change('ViewOrderForm', 'cm_circle', item.cm_circle));
+                view_form_dispatch(change('ViewOrderForm', 'cm_priority', item.cm_priority));
+                view_form_dispatch(change('ViewOrderForm', 'shippment_person', item.shippment_person));
+                view_form_dispatch(change('ViewOrderForm', 'shippment_address', item.shippment_address));
+                view_form_dispatch(change('ViewOrderForm', 'quantity', item.quantity));
+                view_form_dispatch(change('ViewOrderForm', 'actual_price', item.actual_price));
+
+        }
     },
     showList: function() {
         this.setState({type: 0});
@@ -236,11 +363,16 @@ let OrderPanel = React.createClass({
         panelComponent = oThis;
     },
 	render: function() {
-        return (this.state.type == 1) ? <OrderForm item = { this.state.item } /> : <OrderList />;
+        const status = this.state.item.status;
+        const ordered_at = this.state.item.ordered_at;
+        const order_id = this.state.item.order_id;
+        const image_url = this.state.item.image_url;
+        const orderType = this.state.item.orderType;
+        return (this.state.type == 1) ? <ViewOrderForm image_url={image_url} status={status} ordered_at={ordered_at} orderType={orderType} order_id={order_id} readOnly = "true" /> : <OrderList />;
 	}
 });
 
-
+/*
 
 
 let OrderForm = React.createClass({
@@ -357,6 +489,8 @@ let OrderForm = React.createClass({
         );
     }
 });
+
+*/
 
 
 

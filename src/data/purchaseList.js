@@ -30,7 +30,7 @@ let OrderItem  = React.createClass({
                             <td>{item.name}</td>
                             <td>{item.price}</td>
                             <td>{getDate(item.ordered_at)}</td>
-                            <td><button onClick={ open_order_form.bind(item.id) } className="btn btn-default">{Ri18n.order_view}</button></td>
+                            <td><a href="#" onClick={ open_order_form.bind(item.id) } >{Ri18n.order_view}</a></td>
                         </tr>
         );
 	}

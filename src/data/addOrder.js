@@ -1,13 +1,19 @@
 
 import React from 'react'
-import RStore from './RStore.js' 
 import Ri18n from '../Ri18n.js'
 import ROrderForm from '../components/ROrderForm.js'
+import ROrderCopy from '../components/ROrderCopy.js'
+
+import { Field, reduxForm, submit, change, formValueSelector, reset } from 'redux-form'
+import { connect } from 'react-redux'
+
+import RStore from '../data/RStore.js'
 
 let empty_item = {
     orderType: '0', 
     name: '', 
     price: '',
+    quantity: '',
     description:'',
     actual_price: '',
     highest_price: '',
@@ -17,198 +23,170 @@ let empty_item = {
     cm_date: '',
     cm_place: '',
     cm_circle: '',
-    cm_priority: ''
+    cm_priority: '',
+    shippment_person: '',
+    shippment_address: ''
 }
+
 let btn_enable = true;
+let add_form_dispatch = null;
 
-let OrderForm = React.createClass({
-    
-    getInitialState: function () {
-        return empty_item;
-    },
-
-    handleChangeName: function (event) {
-        this.setState({ name: event.target.value });
-    },
-    handleChangePrice: function (event) {
-        this.setState({ price: event.target.value });
-    },
-    handleChangeOrderType: function (event) {
-        this.setState({ orderType: event.target.value });
-    },
-
-    handleChange_description: function (event) {
-        this.setState({ description: event.target.value });
-    },
-    handleChange_actual_price: function (event) {
-        this.setState({ actual_price: event.target.value });
-    },
-    handleChange_highest_price: function (event) {
-        this.setState({ highest_price: event.target.value });
-    },
-    handleChange_original_price: function (event) {
-        this.setState({ original_price: event.target.value });
-    },
-
-    handleChange_cm_date: function (event) {
-        this.setState({ cm_date: event.target.value });
-    },
-    handleChange_cm_place: function (event) {
-        this.setState({ cm_place: event.target.value });
-    },
-    handleChange_cm_circle: function (event) {
-        this.setState({ cm_circle: event.target.value });
-    },
-    handleChange_cm_priority: function (event) {
-        this.setState({ cm_priority: event.target.value });
-    },
-    handleChange_url: function (event) {
-        this.setState({ url: event.target.value });
-    },
-    handleChange_image_url: function (event) {
-        this.setState({ image_url: event.target.value });
-    },
-
-    handleChangeCMDate: function (event) {
-        this.setState({ cm_date: event.target.value });
-    },
-    handleAddClick: function (event) {
+//Convert to Redux-Form
+let AddOrderForm = reduxForm({
+    form: 'AddOrderForm',  // a unique identifier for this form
+    onSubmit: function(value){
         if (btn_enable) {
             btn_enable = false;
-            if (this.state.name != '') {
-                let item = {
-                    orderType: this.state.orderType, 
-                    name: this.state.name, 
-                    price: this.state.price, 
-                    description:this.state.description, 
-                    actual_price: this.state.actual_price, 
-                    highest_price: this.state.highest_price, 
-                    extra_price: this.state.extra_price, 
-                    url: this.state.url, 
-                    image_url: this.state.image_url, 
-                    cm_date: this.state.cm_date, 
-                    cm_place: this.state.cm_place, 
-                    cm_circle: this.state.cm_circle, 
-                    cm_priority: this.state.cm_priority
-                };
-                RStore.addOrder(item);
-                this.setState(empty_item);
-                toastr.success('Item added');
+            
+            if (value.name && value.name != '') {
+                    let item = {
+                        orderType: value.orderType, 
+                        name: value.name, 
+                        price: value.price, 
+                        description:value.description, 
+                        highest_price: value.highest_price, 
+                        extra_price: value.extra_price, 
+                        quantity: value.quantity,
+                        url: value.url, 
+                        image_url: value.image_url, 
+                        cm_date: value.cm_date, 
+                        cm_place: value.cm_place, 
+                        cm_circle: value.cm_circle, 
+                        cm_priority: value.cm_priority,
+                        shippment_person: value.shippment_person,
+                        shippment_address: value.shippment_address
+                    };
+                    RStore.addOrder(item);
+                    //this.setState(empty_item);
+                    console.log('submit');
+                    console.log(this);
+                    console.log(value);
+                    if (add_form_dispatch) add_form_dispatch(reset('AddOrderForm'));
+                    toastr.success('已成功提交訂單');
+                    if (orderCopyFormThis) orderCopyFormThis();
             }else{
-                toastr.error('Please input item name!'); 
+                toastr.error('請輸入訂單的物品名稱!');
             }
 
             btn_enable = true;
         }
+        //console.log('onSubmit');
+        //console.log(value);
 
-    },
-	render: function() {
-        const readOnlyOpt = {};
-        if(this.state.name != '') {
-            readOnlyOpt['readOnly'] = 'readOnly';
+    }
+})(ROrderForm)
+
+// Connect to Redux
+function mapStateToProps(state) {
+    const selector = formValueSelector('AddOrderForm');
+    return {
+        name: selector(state, 'name'),
+        orderType: selector(state, 'orderType'),
+        initialValues: empty_item
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    add_form_dispatch = dispatch;
+    return {
+        /*
+        setUserInfo(userInfo) {
+            dispatch(change('ROrderForm', 'uid', userInfo.uid));
+            dispatch(change('ROrderForm', 'name', userInfo.name));
+            dispatch(change('ROrderForm', 'email', userInfo.email));
+            dispatch(change('ROrderForm', 'desc', userInfo.desc));
+            dispatch(change('ROrderForm', 'address', userInfo.address));
+            dispatch(change('ROrderForm', 'point', userInfo.point));
+            dispatch(change('ROrderForm', 'point_available', userInfo.point_available));
+
+        },*/
+        handleEditClick() {
+            //console.log('ROrderForm - submit(ROrderForm)');
+            //console.log(submit('ROrderForm'));
+            //console.log('ROrderForm - submit');
+            //console.log(submit);
+            dispatch(submit('AddOrderForm'));
+        },
+        handleDeleteClick() {
+
+        },
+        handleAddClick() {
+            dispatch(submit('AddOrderForm'));
         }
 
+    };
+}
+
+AddOrderForm = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(AddOrderForm);
+
+let orderCopyFormThis = null;
+
+let OrderCopyCombo = React.createClass({
+    onChange: function(e){
+        //console.log('onChange');
+        //console.log(e);
+        //console.log(e.target.value);
+        let id = e.target.value;
+        if (id && id != ''){
+            let value = this.state.items[id];
+            if (value && value.name && value.name != '' && add_form_dispatch){
+                	// 「OK」時の処理開始 ＋ 確認ダイアログの表示
+                if(window.confirm(Ri18n.copy_confirm)){
+                    add_form_dispatch(change('AddOrderForm', 'orderType', value.orderType));
+                    add_form_dispatch(change('AddOrderForm', 'name', value.name));
+                    add_form_dispatch(change('AddOrderForm', 'price', value.price));
+                    add_form_dispatch(change('AddOrderForm', 'description', value.description));
+                    add_form_dispatch(change('AddOrderForm', 'highest_price', value.highest_price));
+                    add_form_dispatch(change('AddOrderForm', 'extra_price', value.extra_price));
+                    add_form_dispatch(change('AddOrderForm', 'url', value.url));
+                    add_form_dispatch(change('AddOrderForm', 'image_url', value.image_url));
+                    add_form_dispatch(change('AddOrderForm', 'cm_date', value.cm_date));
+                    add_form_dispatch(change('AddOrderForm', 'cm_place', value.cm_place));
+                    add_form_dispatch(change('AddOrderForm', 'cm_circle', value.cm_circle));
+                    add_form_dispatch(change('AddOrderForm', 'cm_priority', value.cm_priority));
+                    add_form_dispatch(change('AddOrderForm', 'shippment_person', value.shippment_person));
+                    add_form_dispatch(change('AddOrderForm', 'shippment_address', value.shippment_address));
+                }
+
+            }
+        }
+
+    },
+    getInitialState: function () {
+        return { items: {} }
+    },
+    reload: function() {
+        let oThis = this;
+        Promise.all([RStore.getOrders()]).then(function(orderData) {
+             oThis.setState({ items: orderData[0] });
+        });
+    },
+    componentDidMount: function() {
+        let oThis = this;
+        this.reload();
+        orderCopyFormThis = oThis;
+    },
+	render: function() {
+       let obj = this.state.items;
+        let list = [{ id: '', name: '' }];
+                        
+        Object.keys(obj).forEach(function(key) {
+            list.push(obj[key]);
+        });
+
 		return (
-            <div>
-                <div className="form-group">
-                    <label className="control-label">{ Ri18n.order_type }</label>
-                    <div className="selectContainer">
-                        <select className="form-control" name="color" value={this.state.orderType} onChange={ this.handleChangeOrderType }>
-                            <option value="0">{ Ri18n.order_type_normal }</option>
-                            <option value="1">{ Ri18n.order_type_find }</option>
-                            <option value="2">{ Ri18n.order_type_cm }</option>
-                        </select>
-                    </div>
-                </div>
-                <div className="form-group">
-                    <label>{ Ri18n.item_name }:</label>
-                    <input type="text" value={this.state.name} onChange={this.handleChangeName} className="form-control" />
-                </div>
-                { (this.state.orderType == '2') ? (
-                    <div>
-                        <div className="form-group">
-                            <label>{ Ri18n.cm_date }:</label>
-                            <input type="text" value={this.state.cm_date} onChange={this.handleChange_cm_date} className="form-control" />
-                        </div>
-                        <div className="form-group">
-                            <label>{ Ri18n.cm_place }:</label>
-                            <input type="text" value={this.state.cm_place} onChange={this.handleChange_cm_place} className="form-control" />
-                        </div>
-                        <div className="form-group">
-                            <label>{ Ri18n.cm_circle }:</label>
-                            <input type="text" value={this.state.cm_circle} onChange={this.handleChange_cm_circle} className="form-control" />
-                        </div>
-                        <div className="form-group">
-                            <label>{ Ri18n.cm_priority }:</label>
-                            <input type="text" value={this.state.cm_priority} onChange={this.handleChange_cm_priority} className="form-control" />
-                        </div>
-                    </div>
-                ) : (
-                    <div>
-                    </div>
-                ) }
-                <div className="form-group">
-                    <label>{ Ri18n.url }:</label>
-                    <input type="text" className="form-control" value={this.state.url} onChange={ this.handleChange_url } {...readOnlyOpt} />
-                </div>
-                <div className="form-group">
-                    <label>{ Ri18n.image_url }:</label>
-                    <input type="text" className="form-control" value={this.state.image_url} onChange={ this.handleChange_image_url } {...readOnlyOpt}  />
-                </div>
-                <div className="form-group">
-                    <label>{ Ri18n.description }:</label>
-                    <textarea className="form-control" rows="5" value={this.state.description} onChange={ this.handleChange_description } {...readOnlyOpt} ></textarea>
-                </div>
-                { (this.state.orderType == '1' || this.state.orderType == '2') ? (
-                    <div>
-                    <div className="form-group">
-                        <label>{ Ri18n.original_price }:</label>
-                        <div className="inputGroupContainer">
-                            <div className="input-group">
-                                <input type="text" value={this.state.price} onChange={this.handleChangePrice} className="form-control" name="price" />
-                                <span className="input-group-addon">{ Ri18n.jap_dollar }</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>{ Ri18n.highest_price }:</label>
-                        <div className="inputGroupContainer">
-                            <div className="input-group">
-                                <input type="text" value={this.state.highest_price} onChange={this.handleChange_highest_price} className="form-control" name="price" />
-                                <span className="input-group-addon">{ Ri18n.jap_dollar }</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>{ Ri18n.actual_price }:</label>
-                        <div className="inputGroupContainer">
-                            <div className="input-group">
-                                <input type="text" className="form-control" name="price" value={this.state.actual_price} onChange={this.handleChange_actual_price}  />
-                                <span className="input-group-addon">{ Ri18n.jap_dollar }</span>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                ) : (
-                    <div className="form-group">
-                        <label>{ Ri18n.price }:</label>
-                        <div className="inputGroupContainer">
-                            <div className="input-group">
-                                <input type="text" value={this.state.price} onChange={this.handleChangePrice} className="form-control" name="price" />
-                                <span className="input-group-addon">{ Ri18n.jap_dollar }</span>
-                            </div>
-                        </div>
-                    </div>
-                ) }
-                <button onClick={ this.handleAddClick } className="btn btn-default">Add</button>
-            </div>
-)
+                    <ROrderCopy list={list} onChange={ this.onChange }/>
+        );
 	}
 });
 
 
 let order = [
-    <ROrderForm />
+    <OrderCopyCombo />,
+    <AddOrderForm />
 //<OrderForm item = { order_items } />
 ];
 
