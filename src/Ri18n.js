@@ -11,7 +11,8 @@ let Ri18n = {
     qr_confirm: 'QR Code確認收貨(未實裝)',
     copy_from_old_order: '由舊訂單複製內容到新訂單',
     copy_confirm: '你確定要由舊訂單複製內容到新訂單嗎?是的話,你新訂單已輸入的內容將會被舊訂單的資料所覆蓋.',
-    
+
+    confirm_delete: '你確定要刪除訂單嗎?',
     order_type: '訂單種類',
     order_type_normal: '一般購入',
     order_type_find: '物品尋找',

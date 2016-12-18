@@ -58,12 +58,12 @@ let AddOrderForm = reduxForm({
                     };
                     RStore.addOrder(item);
                     //this.setState(empty_item);
-                    console.log('submit');
-                    console.log(this);
-                    console.log(value);
+                    //console.log('submit');
+                    //console.log(this);
+                    //console.log(value);
                     if (add_form_dispatch) add_form_dispatch(reset('AddOrderForm'));
                     toastr.success('已成功提交訂單');
-                    if (orderCopyFormThis) orderCopyFormThis();
+                    if (orderCopyFormThis) orderCopyFormThis.reload();
             }else{
                 toastr.error('請輸入訂單的物品名稱!');
             }

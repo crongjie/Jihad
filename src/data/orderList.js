@@ -41,9 +41,12 @@ let getDate = function(timestamp) {
 } 
 
 let delete_order = function(id){
-    Promise.all([RStore.deleteOrder(id)]).then(function(orderData) {
-        if (listComponent && listComponent.reload) listComponent.reload();
-    });
+    if(window.confirm(Ri18n.confirm_delete)){
+        Promise.all([RStore.deleteOrder(id)]).then(function(orderData) {
+            if (listComponent && listComponent.reload) listComponent.reload();
+        });
+    }
+
 }
 
 

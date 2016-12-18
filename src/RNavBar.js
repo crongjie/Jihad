@@ -104,7 +104,7 @@ let RNavBar = React.createClass({
         } else {
             // [START signout]
             firebase.auth().signOut();
-            window.location.href = BASE_URL; 
+            window.location.href = BASE_URL + '/#'; 
             // [END signout]
         }
         // [START_EXCLUDE]

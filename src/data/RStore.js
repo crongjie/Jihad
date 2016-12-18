@@ -75,9 +75,12 @@ let RStoreFireBase = {
             let userId = firebase.auth().currentUser.uid;
             return firebase.database().ref('/userData/' + userId).once('value').then(function(snapshot) {
                 //console.log(snapshot.val());
+
                 if (snapshot.val() && snapshot.val().email)  return snapshot.val();
                 else{
-                    return {
+                    //console.log('snapshot');
+                    //console.log(snapshot);
+                    let userInfo = {
                         uid: userId,
                         name: googleUserInfo.displayName,
                         email: googleUserInfo.email,
@@ -85,7 +88,9 @@ let RStoreFireBase = {
                         desc: '',
                         point_available: 0,
                         point: 0
-                    }
+                    };
+                    RStoreFireBase.setUserInfo(userInfo);
+                    return userInfo;
                 }
             });
         }else{
@@ -102,10 +107,12 @@ let RStoreFireBase = {
 
     },
     setUserInfo: function(uinfo){
-        var userId = firebase.auth().currentUser.uid;
-        var updates = {};
-        updates['/userData/' + userId] = uinfo;
-        return firebase.database().ref().update(updates);
+        if (firebase.auth().currentUser && firebase.auth().currentUser.uid) {
+            var userId = firebase.auth().currentUser.uid;
+            var updates = {};
+            updates['/userData/' + userId] = uinfo;
+            return firebase.database().ref().update(updates);
+        }
     }
 };
 
