@@ -73,7 +73,8 @@ let empty_item = {
     cm_circle: '',
     cm_priority: '',
     shippment_person: '',
-    shippment_address: ''
+    shippment_address: '',
+    purchase_remarks: ''
 }
 
 let init_item = empty_item;
@@ -87,9 +88,11 @@ let ViewOrderForm = reduxForm({
     onSubmit: function(value){
         if (btn_enable) {
             btn_enable = false;
-            /*
+            
             if (value.name && value.name != '') {
                     let item = {
+                        id: value.id,
+                        ordered_at: value.ordered_at,
                         orderType: value.orderType, 
                         name: value.name, 
                         price: value.price, 
@@ -106,13 +109,17 @@ let ViewOrderForm = reduxForm({
                         shippment_person: value.shippment_person,
                         shippment_address: value.shippment_address
                     };
-                    RStore.addOrder(item);
-                    if (view_form_dispatch) view_form_dispatch(reset('ViewOrderForm'));
+                    //console.log('onSubmit');
+                    //console.log(value);
+                    RStore.editOrder(value.id, item);
+                    //if (view_form_dispatch) view_form_dispatch(reset('ViewOrderForm'));
+                    if (panelComponent) panelComponent.showList();
+                    if (listComponent && listComponent.reload) listComponent.reload();
                     toastr.success('已成功修改訂單');
             }else{
                 toastr.error('請輸入訂單的物品名稱!');
             }
-            */
+            
             btn_enable = true;
         }
         //console.log('onSubmit');
@@ -152,7 +159,7 @@ function mapDispatchToProps(dispatch) {
             //console.log(submit('ROrderForm'));
             //console.log('ROrderForm - submit');
             //console.log(submit);
-            //dispatch(submit('ViewOrderForm'));
+            dispatch(submit('ViewOrderForm'));
         },
         handleDeleteClick() {
 
@@ -263,8 +270,8 @@ let OrderItem  = React.createClass({
                         <tr>
                             <td>{item.name}</td>
                             <td>{getStatus(item.status)}</td>
-                            <td><a href="#" onClick={ open_order_form.bind(this,item.id) } >{Ri18n.order_view}</a></td>
-                            <td><a href="#" onClick={ delete_order.bind(this,item.id) } >{Ri18n.order_delete}</a></td>
+                            <td><a href="#" onClick={ open_order_form.bind(this,item.id) } >{ (item.status < 2) ? Ri18n.order_view_edit : Ri18n.order_view} </a></td>
+                            <td>{ (item.status < 2) ? <a href="#" onClick={ delete_order.bind(this,item.id) } >{Ri18n.order_delete}</a> : ''}</td>
                         </tr>
         );
 	}
@@ -287,17 +294,6 @@ let OrderList = React.createClass({
         let oThis = this;
         this.reload();
         listComponent = oThis;
-    },
-    handleChangeName: function (event) {
-        this.setState({ name: event.target.value });
-    },
-    handleChangePrice: function (event) {
-        this.setState({ price: event.target.value });
-    },
-    handleAddClick: function (event) {
-        RStore.addOrder( { id: item_id, name: this.state.name, price: this.state.price });
-        //order_items.push( { id: item_id, name: this.state.name, price: this.state.price })
-        this.setState({ name: '', price: '' });
     },
 	render: function() {
 
@@ -343,7 +339,7 @@ let OrderPanel = React.createClass({
         if (view_form_dispatch && item) {
                 view_form_dispatch(change('ViewOrderForm', 'status', item.status));
                 view_form_dispatch(change('ViewOrderForm', 'ordered_at', item.ordered_at));
-
+                view_form_dispatch(change('ViewOrderForm', 'id', item.id));
                 view_form_dispatch(change('ViewOrderForm', 'orderType', item.orderType));
                 view_form_dispatch(change('ViewOrderForm', 'name', item.name));
                 view_form_dispatch(change('ViewOrderForm', 'price', item.price));
@@ -360,7 +356,7 @@ let OrderPanel = React.createClass({
                 view_form_dispatch(change('ViewOrderForm', 'shippment_address', item.shippment_address));
                 view_form_dispatch(change('ViewOrderForm', 'quantity', item.quantity));
                 view_form_dispatch(change('ViewOrderForm', 'actual_price', item.actual_price));
-
+                view_form_dispatch(change('ViewOrderForm', 'purchase_remarks', item.purchase_remarks));
         }
     },
     showList: function() {
@@ -376,7 +372,7 @@ let OrderPanel = React.createClass({
         const order_id = this.state.item.order_id;
         const image_url = this.state.item.image_url;
         const orderType = this.state.item.orderType;
-        return (this.state.type == 1) ? <ViewOrderForm image_url={image_url} status={status} ordered_at={ordered_at} orderType={orderType} order_id={order_id} readOnly = "true" /> : <OrderList />;
+        return (this.state.type == 1) ? <ViewOrderForm isEdit="true" image_url={image_url} status={status} ordered_at={ordered_at} orderType={orderType} order_id={order_id} readOnly = "true" /> : <OrderList />;
 	}
 });
 

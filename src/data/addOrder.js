@@ -25,7 +25,8 @@ let empty_item = {
     cm_circle: '',
     cm_priority: '',
     shippment_person: '',
-    shippment_address: ''
+    shippment_address: '',
+    purchase_remarks: ''
 }
 
 let btn_enable = true;

@@ -70,11 +70,12 @@ class ROrderForm extends Component {
 
     render() {
         const readOnlyOpt = {};
-        const isReadOnly = (this.props.readOnly === "true");
+        const isReadOnly = (this.props.status >= 2);
         if(isReadOnly) {
             readOnlyOpt['readOnly'] = 'readOnly';
         }
-
+        console.log('this.props.isEdit');
+        console.log(this.props.isEdit);
         return (
             <div>
                 <div className="form-group">
@@ -218,15 +219,23 @@ class ROrderForm extends Component {
                             </div>
                         </div>
                     </div>
+                    {
+                        ( this.props.status >= 3) ? 
+                        <div className="form-group">
+                            <label>{ Ri18n.purchase_remarks }:</label>
+                            <Field name="purchase_remarks" component="textarea" rows="5"  type="text" className="form-control" readOnly  />
+                        </div>
+                        : ''
+                    }
                     { 
                         (isReadOnly) ? 
                             <button onClick={ this.props.handleBackClick } className="btn btn-default">{ Ri18n.back }</button> 
                              : (
-                                 (!this.props.isEdit === "true") ?
+                                 (this.props.isEdit == "true") ?
                                     <div>
                                         <button onClick={ this.props.handleEditClick } className="btn btn-default">{ Ri18n.edit }</button>
                                         &nbsp;&nbsp;
-                                        <button onClick={ this.props.handleDeleteClick } className="btn btn-default">{ Ri18n.delete }</button>
+                                        <button onClick={ this.props.handleBackClick } className="btn btn-default">{ Ri18n.back }</button>
                                     </div>
                                     : <button onClick={ this.props.handleAddClick } className="btn btn-default">{ Ri18n.add }</button> 
                              )

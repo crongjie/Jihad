@@ -70,6 +70,22 @@ let RStoreFireBase = {
             toastr.error('Error getting login information, please login again!'); 
         }
     },
+    editOrder: function(key, item) {
+        if (firebase.auth().currentUser && firebase.auth().currentUser.uid) {
+            var newPostKey = key;
+
+            //item.id = key;
+            item.status = 0;
+            item.updated_at = _.now();
+
+            let userId = firebase.auth().currentUser.uid;
+            let updates = {};
+            updates['/orderData/' + userId + '/' + key] = item;
+            return firebase.database().ref().update(updates);
+        }else{
+            toastr.error('Error getting login information, please login again!'); 
+        }
+    },
     getUserInfo: function() {
         if (firebase.auth().currentUser && firebase.auth().currentUser.uid) {
             let userId = firebase.auth().currentUser.uid;
@@ -115,7 +131,7 @@ let RStoreFireBase = {
         }
     }
 };
-
+/*
 let RStore = {
     setGoogleUserInfo : function(userInfo) {
         googleUserInfo = userInfo;
@@ -150,3 +166,6 @@ let RStore = {
 };
 
 export default (useFirebase)? RStoreFireBase : RStore
+*/
+
+export default RStoreFireBase
