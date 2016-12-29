@@ -30,12 +30,12 @@ const empty_item = {
 
 let getStatus = function(status) {
     switch (status) {
-        case '1': return '待購入';
-        case '2': return '購入準備中';
-        case '3': return '已購入,待發貨';
-        case '4': return '發貨準備中';
-        case '5': return '待確認收貨';
-        case '6': return '已收貨';
+        case 1: return '待購入';
+        case 2: return '購入準備中';
+        case 3: return '已購入,待發貨';
+        case 4: return '發貨準備中';
+        case 5: return '待確認收貨';
+        case 6: return '已收貨';
         default: return '待確認';
     }
 } 

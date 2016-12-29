@@ -28,11 +28,16 @@ let getItemName = function(type) {
 
 let getStatus = function(status) {
     switch (status) {
-        case '1': return '';
-        case '2': return '';
+        case 1: return '待購入';
+        case 2: return '購入準備中';
+        case 3: return '已購入,待發貨';
+        case 4: return '發貨準備中';
+        case 5: return '待確認收貨';
+        case 6: return '已收貨';
         default: return '待確認';
     }
 } 
+
 
 
 let getDate = function(timestamp) {
